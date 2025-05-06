@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengurus - Saku Santri JARINABI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .dashboard-card {
+            height: 100%;
+        }
+        .chart-container {
+            height: 300px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Saku Santri JARINABI</a>
+            <div class="d-flex align-items-center">
+                <div class="dropdown me-3">
+                    <button class="btn btn-light position-relative" id="notifDropdown" data-bs-toggle="dropdown">
+                        <i class="bi bi-bell"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            2
+                            <span class="visually-hidden">unread notifications</span>
+                        </span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end px-2" style="width: 320px;">
+                        <li><h6 class="dropdown-header">Notifikasi Terbaru</h6></li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <div class="d-flex justify-content-between">
+                                    <span>Klaim Penagihan Disetujui</span>
+                                    <small class="text-muted">2 jam lalu</small>
+                                </div>
+                                <small>Kantin Putra: Rp 850.000</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <div class="d-flex justify-content-between">
+                                    <span>Laporan Bulanan Siap</span>
+                                    <small class="text-muted">1 hari lalu</small>
+                                </div>
+                                <small>Mei 2025</small>
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-center" href="#">Lihat Semua Notifikasi</a></li>
+                    </ul>
+                </div>
+                <span class="navbar-text me-3">Pengurus Pondok</span>
+                <a href="login.html" class="btn btn-outline-light">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <!-- Summary Cards -->
+            <div class="col-md-3">
+                <div class="card dashboard-card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Total Santri</h5>
+                        <div class="display-5">500</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card dashboard-card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Total Saldo</h5>
+                                    <div class="display-5">187.500.000</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card dashboard-card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Transaksi Bulan Ini</h5>
+                                        <div class="display-5 text-danger">2.850.000</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card dashboard-card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Top-up Bulan Ini</h5>
+                        <div class="display-5">3.200.000</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Charts -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Transaksi per Unit</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="transactionsChart"></canvas>
+                        <script>
+                            // Chart.js implementation for transactions (Pie Chart)
+                            const transactionsCtx = document.getElementById('transactionsChart').getContext('2d');
+                            new Chart(transactionsCtx, {
+                                type: 'pie',
+                                data: {
+                                    labels: ['Kantin Putra', 'Kantin Putri', 'Koperasi', 'Administrasi'],
+                                    datasets: [{
+                                        data: [1250000, 850000, 600000, 150000],
+                                        backgroundColor: [
+                                            'rgba(75, 192, 192, 0.7)',
+                                            'rgba(54, 162, 235, 0.7)',
+                                            'rgba(255, 206, 86, 0.7)',
+                                            'rgba(153, 102, 255, 0.7)'
+                                        ],
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: {
+                                            position: 'right',
+                                        },
+                                        tooltip: {
+                                            callbacks: {
+                                                label: function(context) {
+                                                    let label = context.label || '';
+                                                    let value = context.raw || 0;
+                                                    let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                                    let percentage = Math.round((value / total) * 100);
+                                                    return `${label}: Rp ${value.toLocaleString()} (${percentage}%)`;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Top-up Bulan Ini</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="topupChart"></canvas>
+                        <script>
+                            // Chart.js implementation for top-ups
+                            const topupCtx = document.getElementById('topupChart').getContext('2d');
+                            new Chart(topupCtx, {
+                                type: 'line',
+                                data: {
+                                    labels: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'],
+                                    datasets: [{
+                                        label: 'Total Top-up (Rp)',
+                                        data: [1200000, 1850000, 1500000, 2100000],
+                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 2,
+                                        tension: 0.4,
+                                        fill: true
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            ticks: {
+                                                callback: function(value) {
+                                                    return 'Rp ' + value.toLocaleString();
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Santri Search Section -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Cari Data Santri</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Masukkan NIS Santri" id="nisInput">
+                                    <button class="btn btn-primary" id="searchButton">Cari</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="santriDetails" class="mt-3" style="display:none;">
+                            <div class="row">
+                                <div class="col-md-3 text-center">
+                                    <img src="asset/Ahmad-Manaf.png" class="rounded-circle mb-2" width="120" alt="Foto Santri">
+                                    <h5>Ahmad Manaf</h5>
+                                    <p class="text-muted">NIS: 123456789</p>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">Saldo</h6>
+                                                    <p class="card-text">Rp 250.000</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">Transaksi Bulan Ini</h6>
+                                                    <p class="card-text">15</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">Top-up Bulan Ini</h6>
+                                                    <p class="card-text">Rp 500.000</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <h6>Riwayat Transaksi Terakhir</h6>
+                                        <div class="list-group">
+                                            <div class="list-group-item">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Kantin Putra - Nasi Goreng</span>
+                                                    <span class="text-danger">-Rp 15.000</span>
+                                                </div>
+                                                <small class="text-muted">04/05/2025 12:30</small>
+                                            </div>
+                                            <div class="list-group-item">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Koperasi - Buku Tulis</span>
+                                                    <span class="text-danger">-Rp 25.000</span>
+                                                </div>
+                                                <small class="text-muted">03/05/2025 11:15</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audit Log Section -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Log Aktivitas Sistem</h5>
+                        <div>
+                            <select class="form-select form-select-sm" style="width: 150px;">
+                                <option>Semua Role</option>
+                                <option>Admin Keuangan</option>
+                                <option>Admin Unit</option>
+                                <option>Bendahara</option>
+                                <option>Wali Santri</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Waktu</th>
+                                        <th>User</th>
+                                        <th>Role</th>
+                                        <th>Aktivitas</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>04/05/2025 10:30</td>
+                                        <td>Bambang S</td>
+                                        <td>Admin Unit</td>
+                                        <td>Mengajukan klaim penagihan</td>
+                                        <td>Kantin Putra: <span class="text-danger">Rp 850.000</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>04/05/2025 09:15</td>
+                                        <td>Dewi K</td>
+                                        <td>Admin Keuangan</td>
+                                        <td>Mencatat top-up tunai</td>
+                                        <td>Santri: Ahmad Manaf, <span class="text-success">+Rp 500.000</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>03/05/2025 14:20</td>
+                                        <td>Ibrahim A</td>
+                                        <td>Bendahara</td>
+                                        <td>Mengotorisasi pelunasan</td>
+                                        <td>Koperasi: <span class="text-danger">Rp 350.000</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Chart Distribusi Transaksi
+        const distributionCtx = document.getElementById('distributionChart').getContext('2d');
+        new Chart(distributionCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Kantin Putra', 'Kantin Putri', 'Koperasi', 'Administrasi'],
+                datasets: [{
+                    data: [1250000, 850000, 600000, 150000],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                let value = context.raw || 0;
+                                let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                let percentage = Math.round((value / total) * 100);
+                                return `${label}: Rp ${value.toLocaleString()} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Tunggu sampai DOM selesai dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fungsi untuk menampilkan detail santri
+            document.getElementById('searchButton').addEventListener('click', function() {
+                // Validasi input
+                const nisInput = document.getElementById('nisInput');
+                if (!nisInput.value) {
+                    alert('Harap masukkan NIS Santri terlebih dahulu');
+                    return;
+                }
+            });
+            
+            // Simulasi data santri
+            const santriData = {
+                nama: "Ahmad Manaf",
+                nis: "123456789",
+                saldo: "250.000",
+                transaksiBulanIni: 15,
+                topupBulanIni: "500.000",
+                foto: "asset/Ahmad-Manaf.png",
+                transaksiTerakhir: [
+                    { unit: "Kantin Putra", item: "Nasi Goreng", nominal: "15.000", waktu: "04/05/2025 12:30" },
+                    { unit: "Koperasi", item: "Buku Tulis", nominal: "25.000", waktu: "03/05/2025 11:15" }
+                ]
+            };
+
+            // Update tampilan dengan data santri
+            document.getElementById('santriDetails').style.display = 'block';
+            document.querySelector('#santriDetails img').src = santriData.foto;
+            document.querySelector('#santriDetails h5').textContent = santriData.nama;
+            document.querySelector('#santriDetails .text-muted').textContent = `NIS: ${santriData.nis}`;
+            document.querySelector('#santriDetails .card-text:nth-of-type(1)').textContent = `Rp ${santriData.saldo}`;
+            document.querySelector('#santriDetails .card-text:nth-of-type(2)').textContent = santriData.transaksiBulanIni;
+            document.querySelector('#santriDetails .card-text:nth-of-type(3)').textContent = `Rp ${santriData.topupBulanIni}`;
+
+            // Update riwayat transaksi
+            const transaksiList = document.querySelector('#santriDetails .list-group');
+            transaksiList.innerHTML = '';
+            santriData.transaksiTerakhir.forEach(transaksi => {
+                transaksiList.innerHTML += `
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <span>${transaksi.unit} - ${transaksi.item}</span>
+                            <span class="text-danger">-Rp ${transaksi.nominal}</span>
+                        </div>
+                        <small class="text-muted">${transaksi.waktu}</small>
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>

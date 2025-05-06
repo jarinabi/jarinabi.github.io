@@ -1,55 +1,144 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repositori Pondok Pesantren JARINABI</title>
-    
-    <!-- Material Design Bootstrap CDN -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Saku Santri JARINABI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .role-card {
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .role-card:hover {
+            transform: translateY(-5px);
+        }
+        .role-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="#">PP JARINABI</a>
-            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarNav">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Beranda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="saku-santri/index.html">Saku Santri</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://github.com/jarinabi/jarinabi.github.io">Github</a>
-                    </li>
-                </ul>
+    <div class="text-center my-4">
+        <img src="asset/loco-eco-jarinabi.png" class="img-fluid" style="max-width: 300px;">
+    </div>
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="display-7">Saku Santri - Sistem Pengelolaan Uang Santri</h2>
+        </div>
+        
+        <div class="row g-4">
+
+            <!-- Executive Brief Card -->
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4 role-card" onclick="location.href='executive-brief.html'">
+                    <div class="card-body">
+                        <div class="role-icon">📄</div>
+                        <h3>Executive Brief</h3>
+                        <p>Dokumen ringkasan eksekutif sistem</p>
+                        <div class="text-muted">Fitur: Overview sistem, tujuan, manfaat</div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </nav>
 
-    <main class="container my-5">
-        <div class="row">
-            <div class="col-12 text-center">
-                <h1 class="mb-4">Selamat Datang di Repositori</h1>
-                <h2 class="mb-4">Pondok Pesantren JARINABI</h2>
+            <!-- Dokumen Teknis Card -->
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4 role-card" onclick="location.href='dokumen-teknis.html'">
+                    <div class="card-body">
+                        <div class="role-icon">📚</div>
+                        <h3>Dokumen Teknis</h3>
+                        <p>Dokumentasi teknis lengkap sistem</p>
+                        <div class="text-muted">Fitur: Spesifikasi, arsitektur, alur kerja</div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </main>
 
-    <footer class="bg-light text-center text-lg-start mt-5">
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-            © 2023 Copyright:
-            <a class="text-dark" href="#">PP JARINABI</a>
-        </div>
-    </footer>
+            <!-- Login Card -->
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4 role-card" onclick="location.href='login.html'">
+                    <div class="card-body">
+                        <div class="role-icon">🔑</div>
+                        <h3>Login</h3>
+                        <p>Akses semua fitur dengan login</p>
+                        <div class="text-muted">Fitur: Login multi-role, ingat perangkat</div>
+                    </div>
+                </div>
+            </div>
 
-    <!-- MDB JavaScript -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
-</body>
-</html>
+            <!-- Wali Santri Card -->
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4 role-card" onclick="location.href='wali_santri.html'">
+                    <div class="card-body">
+                        <div class="role-icon">👨‍👦</div>
+                        <h3>Wali Santri</h3>
+                        <p>Orang tua/wali yang mengelola keuangan santri</p>
+                        <div class="text-muted">Fitur: Top-up, monitoring saldo, riwayat transaksi</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Keuangan Card -->
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4 role-card" onclick="location.href='admin_keuangan.html'">
+                    <div class="card-body">
+                        <div class="role-icon">💼</div>
+                        <h3>Admin Keuangan</h3>
+                        <p>Pengelola keuangan pesantren</p>
+                        <div class="text-muted">Fitur: Verifikasi top-up, monitoring transaksi</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Admin Unit Card -->
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4 role-card" onclick="location.href='admin_unit.html'">
+                    <div class="card-body">
+                        <div class="role-icon">🏪</div>
+                        <h3>Admin Unit</h3>
+                        <p>Pengelola unit bisnis pesantren</p>
+                        <div class="text-muted">Fitur: POS sederhana, verifikasi transaksi</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bendahara Card -->
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4 role-card" onclick="location.href='bendahara.html'">
+                    <div class="card-body">
+                        <div class="role-icon">🔐</div>
+                        <h3>Bendahara</h3>
+                        <p>Pemegang otoritas keuangan tertinggi</p>
+                        <div class="text-muted">Fitur: Otorisasi transaksi, laporan keuangan</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pengurus Card -->
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4 role-card" onclick="location.href='pengurus.html'">
+                    <div class="card-body">
+                        <div class="role-icon">🏛️</div>
+                        <h3>Pengurus</h3>
+                        <p>Manajemen pesantren</p>
+                        <div class="text-muted">Fitur: Dashboard eksekutif, laporan kinerja</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Santri Card -->
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4 role-card" onclick="location.href='santri.html'">
+                    <div class="card-body">
+                        <div class="role-icon">🧑‍🎓</div>
+                        <h3>Santri</h3>
+                        <p>Pelajar di pesantren</p>
+                        <div class="text-muted">Fitur: Lihat saldo, riwayat transaksi, PIN otorisasi</div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

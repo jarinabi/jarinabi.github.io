@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dokumen Teknis - Saku Santri JARINABI (Bagian 3)</title>
+    <!-- Add Mermaid JS -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        color: #202122;
+        margin: 0;
+        padding: 0;
+        background-color: #f6f6f6;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        color: #000;
+        border-bottom: 1px solid #a2a9b1;
+        padding-bottom: 0.25em;
+        margin-top: 1em;
+        margin-bottom: 0.5em;
+      }
+      h1 {
+        font-size: 1.8em;
+        border-bottom: 1px solid #a2a9b1;
+      }
+      h2 {
+        font-size: 1.5em;
+      }
+      h3 {
+        font-size: 1.2em;
+      }
+      a {
+        color: #0645ad;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      table {
+        border-collapse: collapse;
+        margin: 1em 0;
+        width: 100%;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #a2a9b1;
+      }
+      th,
+      td {
+        padding: 0.5em 1em;
+        text-align: left;
+      }
+      th {
+        background-color: #f8f9fa;
+      }
+      .toc {
+        background-color: #f8f9fa;
+        border: 1px solid #a2a9b1;
+        padding: 10px;
+        display: table;
+        margin-bottom: 20px;
+      }
+      .toc-title {
+        font-weight: bold;
+        text-align: center;
+      }
+      .collapsible {
+        background-color: #f8f9fa;
+        color: #202122;
+        cursor: pointer;
+        padding: 10px;
+        width: 100%;
+        border: 1px solid #a2a9b1;
+        text-align: left;
+        outline: none;
+        font-size: 1.1em;
+        margin-top: 10px;
+      }
+      .active,
+      .collapsible:hover {
+        background-color: #eaf3ff;
+      }
+      .content {
+        padding: 0 18px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+        background-color: white;
+      }
+      .active + .content {
+        max-height: none;
+        overflow-y: auto;
+      }
+      pre {
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-radius: 3px;
+        overflow-x: auto;
+      }
+      code {
+        font-family: monospace;
+      }
+      .nav-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+      .nav-button {
+        padding: 8px 16px;
+        background-color: #0645ad;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .nav-button:hover {
+        background-color: #0b5fe6;
+      }
+    </style>
+    <script>
+      // Generate Table of Contents
+      document.addEventListener("DOMContentLoaded", function () {
+        // Create ToC for all headings h2, h3, h4
+        const tocList = document.getElementById("toc-list");
+        const headings = document.querySelectorAll("h2, h3, h4");
+
+        headings.forEach((heading) => {
+          const id = heading.textContent.toLowerCase().replace(/\s+/g, "-");
+          heading.id = id;
+
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.href = `#${id}`;
+          a.textContent = heading.textContent;
+
+          if (heading.tagName === "H3") {
+            li.style.marginLeft = "20px";
+            li.style.listStyleType = "circle";
+          } else if (heading.tagName === "H4") {
+            li.style.marginLeft = "40px";
+            li.style.listStyleType = "square";
+            li.style.fontSize = "0.9em";
+          }
+
+          li.appendChild(a);
+          tocList.appendChild(li);
+        });
+
+        // Initialize Mermaid diagrams
+        if (typeof mermaid !== "undefined") {
+          mermaid.init(undefined, ".language-mermaid");
+        }
+
+        // Collapsible functionality
+        const coll = document.getElementsByClassName("collapsible");
+        for (let i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            const content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+              content.style.maxHeight = null;
+            } else {
+              content.style.maxHeight = content.scrollHeight + "px";
+            }
+          });
+
+          // Open first section by default
+          if (i === 0) {
+            coll[i].classList.add("active");
+            coll[i].nextElementSibling.style.maxHeight =
+              coll[i].nextElementSibling.scrollHeight + "px";
+          }
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <img
+        src="asset/loco-eco-jarinabi.png"
+        alt="Logo Saku Santri JARINABI"
+        style="width: 100%; max-width: 400px; margin: 0 auto; display: block"
+      />
+      <h1>
+        Dokumen Teknis Pengembangan - Sistem Keuangan Santri (Saku Santri
+        JARINABI) - Bagian 3
+      </h1>
+
+      <div class="toc">
+        <div class="toc-title">Daftar Isi</div>
+        <ul id="toc-list"></ul>
+      </div>
+
+      <h2 class="collapsible">7. Detail Implementasi Teknis</h2>
+      <div class="content">
+        <h3>7.1. Backend (Python - FastAPI)</h3>
+        <ul>
+          <li>
+            Setiap <strong>microservice</strong> akan menjadi aplikasi FastAPI
+            terpisah yang berjalan dalam kontainer Docker.
+          </li>
+          <li>
+            Komunikasi antar <strong>microservices</strong> melalui API RESTful
+            internal. Pertimbangkan otentikasi/otorisasi antar microservice
+            (misal, menggunakan API Key internal atau JWT ter scoped).
+          </li>
+          <li>Penggunaan ORM SQLAlchemy untuk interaksi database.</li>
+          <li>
+            Error Handling dan Logging yang konsisten di semua microservice.
+          </li>
+          <li>
+            <strong>Microservice Autentikasi/Pengguna:</strong> Endpoint untuk
+            login, registrasi (oleh admin), manajemen peran, CRUD data
+            pengguna/santri/wali, penyimpanan hash PIN, API untuk validasi PIN,
+            API untuk mengambil data santri (nama, foto) berdasarkan ID.
+          </li>
+          <li>
+            <strong>Microservice Saldo Santri:</strong> Endpoint untuk
+            menambah/mengurangi saldo berdasarkan permintaan yang terotorisasi
+            dari Microservice Top-up atau Transaksi Harian/POS. Log mutasi saldo
+            detail.
+          </li>
+          <li>
+            <strong>Microservice Transaksi Harian / POS:</strong> Endpoint
+            untuk: mengelola data unit dan produk/layanan (CRUD sederhana,
+            mungkin diatur oleh Admin Keu via PWA atau langsung di DB awal),
+            menerima data transaksi dari PWA Admin Unit (termasuk detail item,
+            harga, diskon), memicu validasi PIN via Microservice Autentikasi,
+            memicu pengurangan saldo via Microservice Saldo Santri. Mencatat
+            detail transaksi lengkap di databasenya.
+          </li>
+          <li>
+            <strong>Microservice Top-up:</strong> Endpoint publik untuk menerima
+            callback dari BRIAPI (memerlukan validasi signature/keamanan dari
+            BRIAPI). Endpoint internal untuk mencatat top-up tunai oleh Admin
+            Keuangan (membutuhkan data santri dan jumlah). Memanggil
+            Microservice Saldo Santri untuk menambah saldo.
+          </li>
+          <li>
+            <strong>Microservice Notifikasi:</strong> Endpoint internal untuk
+            menerima event (webhook) dari microservices lain saat terjadi
+            perubahan status penting. Mengelola pengiriman notifikasi in-app ke
+            pengguna terkait melalui mekanisme PWA Push Notifications
+            (membutuhkan integrasi dengan service push notif).
+          </li>
+          <li>
+            <strong>Microservice Laporan/Rekap:</strong> Endpoint untuk query
+            data agregat dan detail dari database microservices lain (via API
+            internal atau akses baca langsung jika database sama). Logic untuk
+            membuat laporan rekap unit (harian/periode), laporan saldo santri,
+            riwayat transaksi detail, data dashboard eksekutif (total saldo,
+            total transaksi periode, status penagihan unit).
+          </li>
+          <li>
+            <strong>Microservice Keuangan Internal / Penagihan:</strong>
+            Endpoint untuk: Admin Unit mengajukan klaim penagihan (berdasarkan
+            periode, unit, dan nominal dari laporan rekap), Admin
+            Keuangan/Bendahara melihat klaim, Admin Keuangan/Bendahara
+            mengotorisasi (membutuhkan validasi PIN ganda dari keduanya) dan
+            mencatat status pelunasan. Mencatat status klaim
+            penagihan/pelunasan, log otorisasi PIN.
+          </li>
+          <li>
+            <strong>Microservice Integrasi Payment Gateway:</strong> Endpoint
+            publik untuk menerima callback BRIAPI. Logic internal untuk membuat
+            permintaan ke API BRIAPI (Create VA, dll.) dan validasi
+            respons/callback.
+          </li>
+        </ul>
+
+        <h3>7.2. Database (PostgreSQL)</h3>
+        <ul>
+          <li>
+            Satu instance PostgreSQL awal dengan skema database logis untuk
+            setiap microservice, atau database terpisah jika arsitektur
+            menghendaki isolasi data yang lebih ketat.
+          </li>
+          <li>
+            Tabel-tabel penting (contoh):
+            <ul>
+              <li>
+                <code>users</code> (Microservice Autentikasi/Pengguna) - semua
+                peran, hash PIN, foto path, relasi wali-santri.
+              </li>
+              <li>
+                <code>santri_balances</code> (Microservice Saldo Santri) - saldo
+                santri.
+              </li>
+              <li>
+                <code>balance_mutations</code> (Microservice Saldo Santri) - log
+                mutasi saldo.
+              </li>
+              <li>
+                <code>units</code> (Microservice Transaksi Harian/POS) - daftar
+                unit (Kantin Putra, dll.).
+              </li>
+              <li>
+                <code>products</code> (Microservice Transaksi Harian/POS) -
+                daftar produk/layanan per unit, harga.
+              </li>
+              <li>
+                <code>transactions</code> (Microservice Transaksi Harian/POS) -
+                detail transaksi utama (waktu, total, unit, santri pemilik,
+                santri pengguna, status).
+              </li>
+              <li>
+                <code>transaction_items</code> (Microservice Transaksi
+                Harian/POS) - detail item (produk_id, nama item, harga saat
+                transaksi, jumlah) dalam setiap transaksi.
+              </li>
+              <li>
+                <code>topup_requests</code> (Microservice Top-up) - log
+                permintaan top-up (jenis, nominal, status, kode VA,
+                tanggal/waktu).
+              </li>
+              <li>
+                <code>audit_logs</code> (Microservice Autentikasi/Pengguna atau
+                Log Service Terpisah) - log semua aktivitas penting.
+              </li>
+              <li>
+                <code>billing_claims</code> (Microservice Keuangan
+                Internal/Penagihan) - data klaim penagihan unit (periode start,
+                periode end, unit_id, jumlah_klaim, status (diajukan, lunas,
+                dibatalkan), tanggal pengajuan, tanggal pelunasan).
+              </li>
+              <li>
+                <code>billing_authorizations</code> (Microservice Keuangan
+                Internal/Penagihan) - log otorisasi PIN untuk klaim (klaim_id,
+                user_id, role, timestamp, status otorisasi).
+              </li>
+              <li>
+                <code>notifications</code> (Microservice Notifikasi) - daftar
+                notifikasi untuk setiap pengguna.
+              </li>
+              <li>
+                <code>santri_budgeting</code> (Microservice Autentikasi/Pengguna
+                atau Saldo Santri) - aturan budgeting per santri.
+              </li>
+              <li>
+                <code>santri_spending_rules</code> (Microservice
+                Autentikasi/Pengguna atau Transaksi Harian/POS) - aturan
+                pengeluaran per santri (blokir unit/produk).
+              </li>
+            </ul>
+          </li>
+          <li>
+            Penggunaan tool Migrations (misal Alembic) untuk mengelola perubahan
+            skema database secara terstruktur.
+          </li>
+        </ul>
+
+        <h3>7.3. Frontend (PWA - React/Vue/Angular)</h3>
+        <ul>
+          <li>
+            Mengembangkan single-page application (SPA) yang dapat diinstal
+            sebagai PWA.
+          </li>
+          <li>
+            Menggunakan API dari microservices backend untuk semua operasi data.
+          </li>
+          <li>
+            Antarmuka pengguna yang spesifik untuk setiap peran (Wali, Santri,
+            Admin Unit POS, Admin Keuangan, Bendahara, Pengurus Pondok).
+          </li>
+          <li>
+            Implementasi fitur PWA: Web App Manifest (untuk instalasi), Service
+            Worker (untuk caching aset, fungsionalitas offline dasar jika
+            diperlukan, Push Notifications).
+          </li>
+          <li>
+            Antarmuka Admin Unit POS: Tampilan daftar produk (dari backend),
+            antarmuka "keranjang" transaksi, perhitungan subtotal/total,
+            input/scanner santri ID,
+            <strong>tampilan nama/foto santri untuk verifikasi</strong>, input
+            nominal/diskon/ubah harga, tombol otorisasi PIN. Antarmuka untuk
+            melihat rekap transaksi unit dan
+            <strong>memulai proses penagihan</strong>.
+          </li>
+          <li>
+            Antarmuka Admin Keuangan: Tampilan laporan rekap unit (semua unit)
+            untuk verifikasi penagihan, antarmuka untuk melihat klaim penagihan
+            dari unit, antarmuka untuk
+            <strong
+              >memproses pelunasan klaim (membutuhkan input PIN Admin
+              Keu)</strong
+            >, input data top-up tunai.
+          </li>
+          <li>
+            Antarmuka Bendahara: Antarmuka
+            <strong>otorisasi PIN Bendahara</strong> untuk persetujuan pelunasan
+            klaim.
+          </li>
+          <li>
+            Antarmuka Pengurus Pondok: Tampilan
+            <strong>Dasbor Eksekutif</strong> (hanya baca).
+          </li>
+          <li>
+            Antarmuka Wali Santri: Tampilan saldo, riwayat transaksi detail,
+            fitur top-up (digital & tunai),
+            <strong>antarmuka manajemen multi-santri</strong>,
+            <strong
+              >antarmuka pengaturan budgeting dan aturan pengeluaran</strong
+            >.
+          </li>
+          <li>
+            Antarmuka Santri: Tampilan saldo, riwayat transaksi detail,
+            antarmuka input PIN saat otorisasi.
+          </li>
+          <li>
+            Implementasi Push Notifications di PWA untuk notifikasi real-time
+            dari Microservice Notifikasi.
+          </li>
+        </ul>
+
+        <h3>7.4. Integrasi Eksternal</h3>
+        <ul>
+          <li>
+            <strong>BRIAPI BRIVA</strong><br />Implementasi di
+            <strong>Microservice Integrasi Payment Gateway</strong>. Membutuhkan
+            registrasi dan kredensial dari BRI. Mengikuti dokumentasi API BRIAPI
+            untuk Create VA dan Callback Notifikasi Pembayaran. Keamanan
+            callback (signature validation) sangat penting.
+          </li>
+          <li>
+            <strong>Layanan Push Notification</strong><br />Membutuhkan
+            integrasi dengan layanan push notification untuk PWA (misal,
+            Firebase Cloud Messaging/FCM atau layanan lain) yang akan digunakan
+            oleh Microservice Notifikasi.
+          </li>
+        </ul>
+
+        <h3>7.5. Containerization (Docker)</h3>
+        <ul>
+          <li>
+            Dockerfile untuk setiap microservice backend, web server
+            (Nginx/Caddy) untuk menyajikan frontend PWA, dan kontainer
+            PostgreSQL.
+          </li>
+          <li>
+            Docker Compose untuk orkestrasi lingkungan development/staging
+            multi-kontainer. Mendefinisikan jaringan, volume, dan dependensi
+            antar kontainer.
+          </li>
+          <li>
+            Menggunakan variabel lingkungan untuk konfigurasi kontainer
+            (kredensial database, endpoint API internal, kredensial BRIAPI,
+            kunci untuk layanan push notification).
+          </li>
+        </ul>
+
+        <h3>7.6. Deployment (Digital Ocean Ubuntu)</h3>
+        <ul>
+          <li>Menyiapkan Droplets Ubuntu.</li>
+          <li>Menginstal Docker dan Docker Compose.</li>
+          <li>
+            Strategi Deployment: Build image Docker -> Push ke Registry (Docker
+            Hub, DO Registry) -> Pull di server -> Jalankan dengan Docker
+            Compose.
+          </li>
+          <li>
+            Menggunakan Reverse Proxy (Nginx/Caddy) di depan kontainer PWA dan
+            API Gateway (jika digunakan) untuk SSL termination (HTTPS) dan
+            routing traffic.
+          </li>
+          <li>
+            Konfigurasi Firewall (UFW atau DO Firewall) untuk membatasi akses
+            hanya pada port yang diperlukan (HTTPS, mungkin port internal antar
+            droplet jika microservices dipisah).
+          </li>
+          <li>Menyiapkan Volume Docker untuk data persisten PostgreSQL.</li>
+          <li>
+            Menerapkan monitoring dan logging untuk kontainer (misal,
+            menggunakan solusi logging terpusat atau integrasi DO Monitoring).
+          </li>
+        </ul>
+      </div>
+
+      <h2 class="collapsible">8. Pertimbangan Keamanan</h2>
+      <div class="content">
+        <ul>
+          <li>
+            <strong>Otentikasi & Otorisasi:</strong> Token-based authentication
+            (JWT atau OAuth 2.0) untuk akses API. Otorisasi granular berbasis
+            peran di setiap microservice.
+          </li>
+          <li>
+            <strong>Keamanan PIN Santri & Admin/Bendahara:</strong> PIN tidak
+            disimpan dalam format plain text, gunakan hashing (misal, Argon2,
+            bcrypt). Validasi PIN dilakukan di backend. Implementasi "salt" yang
+            unik per PIN.
+          </li>
+          <li>
+            <strong>Otorisasi PIN Ganda:</strong> Implementasi yang ketat untuk
+            alur transaksi santri (PIN santri) dan alur keuangan internal (PIN
+            Admin Keu & Bendahara) untuk otorisasi kritis.
+          </li>
+          <li>
+            <strong>Audit Log:</strong> Pencatatan mendetail atas semua
+            aktivitas penting, terutama transaksi (termasuk detail item, siapa
+            Admin Unit, siapa santri pemilik, siapa santri pengguna), top-up,
+            perubahan saldo, klaim penagihan, dan proses pelunasan (siapa yang
+            mengajukan, siapa yang mengotorisasi PIN).
+          </li>
+          <li>
+            <strong>Keamanan API:</strong> Penggunaan HTTPS wajib. Validasi
+            input data di sisi server. Rate limiting untuk endpoint tertentu.
+          </li>
+          <li>
+            <strong>Keamanan BRIAPI:</strong> Menjaga kerahasiaan kredensial
+            BRIAPI. Menggunakan IP Whitelisting jika didukung. Validasi
+            signature/mekanisme keamanan callback dari BRIAPI.
+          </li>
+          <li>
+            <strong>Keamanan Server:</strong> Update OS rutin, konfigurasi
+            firewall, penggunaan SSH key, tidak menjalankan layanan dengan hak
+            akses root.
+          </li>
+          <li>
+            <strong>Verifikasi Identitas Visual:</strong> Langkah konfirmasi
+            nama & foto santri oleh Admin Unit menambah lapisan keamanan dalam
+            transaksi fisik di unit.
+          </li>
+        </ul>
+      </div>
+
+      <h2 class="collapsible">
+        9. Pengembangan Lanjutan (Future Enhancements)
+      </h2>
+      <div class="content">
+        <p>
+          Ini adalah fitur yang <em>tidak termasuk</em> dalam lingkup proyek
+          awal tetapi dapat dipertimbangkan di masa depan:
+        </p>
+        <ul>
+          <li>
+            Integrasi notifikasi via WhatsApp dan Email (saat ini hanya in-app).
+          </li>
+          <li>
+            Fitur penarikan saldo (jika relevan dan disetujui kebijakan pondok).
+          </li>
+          <li>Modul ZIS (Zakat, Infaq, Sedekah) jika diperlukan.</li>
+          <li>Manajemen inventori yang lebih canggih terkait POS.</li>
+          <li>
+            Integrasi dengan Sistem Informasi Santri (SIS) pesantren untuk
+            sinkronisasi data santri.
+          </li>
+          <li>Integrasi dengan Payment Gateway/API bank lain untuk top-up.</li>
+          <li>
+            Dukungan multi-bahasa (jika pesantren memiliki santri/wali
+            internasional).
+          </li>
+          <li>
+            Peningkatan fungsionalitas offline PWA (misal, bisa mencatat
+            transaksi saat offline dan sync saat online).
+          </li>
+          <li>
+            Integrasi dengan sistem pihak ketiga melalui API publik/private.
+          </li>
+          <li>Implementasi otentikasi biometrik untuk santri.</li>
+          <li>Dukungan multi-tenancy untuk pesantren yang berbeda.</li>
+          <li>
+            Fitur manajemen pengguna/unit yang lebih dinamis (misal, Admin
+            Keuangan bisa menambah/mengedit data unit dan user Admin Unit).
+          </li>
+        </ul>
+      </div>
+
+      <div class="nav-buttons">
+        <a href="dokumen-teknis-b.html" class="nav-button">Previous</a>
+      </div>
+    </div>
+  </body>
+</html>

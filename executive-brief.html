@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Brief - Saku Santri JARINABI</title>
+    <!-- Add Mermaid JS -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #202122;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f6f6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: #000;
+            border-bottom: 1px solid #a2a9b1;
+            padding-bottom: 0.25em;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        h1 {
+            font-size: 1.8em;
+            border-bottom: 1px solid #a2a9b1;
+        }
+        h2 {
+            font-size: 1.5em;
+        }
+        h3 {
+            font-size: 1.2em;
+        }
+        a {
+            color: #0645ad;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 1em 0;
+            width: 100%;
+        }
+        table, th, td {
+            border: 1px solid #a2a9b1;
+        }
+        th, td {
+            padding: 0.5em 1em;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f9fa;
+        }
+        .toc {
+            background-color: #f8f9fa;
+            border: 1px solid #a2a9b1;
+            padding: 10px;
+            display: table;
+            margin-bottom: 20px;
+        }
+        .toc-title {
+            font-weight: bold;
+            text-align: center;
+        }
+        .collapsible {
+            background-color: #f8f9fa;
+            color: #202122;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #a2a9b1;
+            text-align: left;
+            outline: none;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+        .active, .collapsible:hover {
+            background-color: #eaf3ff;
+        }
+        .content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            background-color: white;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: monospace;
+        }
+    </style>
+    <script>
+        // Generate Table of Contents
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create ToC for all headings h2, h3, h4
+            const tocList = document.getElementById('toc-list');
+            const headings = document.querySelectorAll('h2, h3, h4');
+            
+            headings.forEach(heading => {
+                const id = heading.textContent.toLowerCase().replace(/\s+/g, '-');
+                heading.id = id;
+                
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `#${id}`;
+                a.textContent = heading.textContent;
+                
+                if (heading.tagName === 'H3') {
+                    li.style.marginLeft = '20px';
+                    li.style.listStyleType = 'circle';
+                } else if (heading.tagName === 'H4') {
+                    li.style.marginLeft = '40px';
+                    li.style.listStyleType = 'square';
+                    li.style.fontSize = '0.9em';
+                }
+                
+                li.appendChild(a);
+                tocList.appendChild(li);
+            });
+
+            // Initialize Mermaid diagrams
+            if (typeof mermaid !== 'undefined') {
+                mermaid.init(undefined, '.language-mermaid');
+            }
+
+            // Collapsible functionality with accordion behavior
+            const coll = document.getElementsByClassName('collapsible');
+            for (let i = 0; i < coll.length; i++) {
+                coll[i].addEventListener('click', function() {
+                    // Close all other collapsibles
+                    for (let j = 0; j < coll.length; j++) {
+                        if (coll[j] !== this) {
+                            coll[j].classList.remove('active');
+                            coll[j].nextElementSibling.style.maxHeight = null;
+                        }
+                    }
+                    
+                    // Toggle current collapsible
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+                
+                // Open first section by default
+                if (i === 0) {
+                    coll[i].classList.add('active');
+                    coll[i].nextElementSibling.style.maxHeight = coll[i].nextElementSibling.scrollHeight + 'px';
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <img src="asset/loco-eco-jarinabi.png" alt="Logo Saku Santri JARINABI" style="width: 100%; max-width: 400px; margin: 0 auto; display: block;">
+        <h1>Executive Brief - Sistem Keuangan Santri Digital (Saku Santri JARINABI)</h1>
+        
+        <div class="toc">
+            <div class="toc-title">Daftar Isi</div>
+            <ul id="toc-list"></ul>
+        </div>
+
+        <h2 class="collapsible">Ringkasan Eksekutif</h2>
+        <div class="content">
+            <p>Saku Santri JARINABI adalah solusi keuangan digital modern yang dirancang khusus untuk lingkungan pesantren. Sistem ini menyediakan platform terintegrasi untuk pengelolaan dana saku santri secara efisien, transparan, dan aman.</p>
+            <p>Dengan memfasilitasi top-up saldo digital, transaksi harian di unit-unit pondok melalui antarmuka Point of Sale (POS) sederhana, serta pelaporan dan rekonsiliasi keuangan yang terstruktur, Saku Santri bertujuan untuk meningkatkan akuntabilitas seluruh ekosistem keuangan pesantren terkait santri.</p>
+        </div>
+
+        <h2 class="collapsible">Tujuan Strategis Sistem</h2>
+        <div class="content">
+            <table>
+                <tr>
+                    <th>Tujuan</th>
+                    <th>Deskripsi</th>
+                </tr>
+                <tr>
+                    <td><strong>Akuntabilitas</strong></td>
+                    <td>Memastikan setiap dana santri tercatat dan terlacak</td>
+                </tr>
+                <tr>
+                    <td><strong>Efisiensi</strong></td>
+                    <td>Proses top-up, transaksi, dan rekonsiliasi menjadi lebih mudah</td>
+                </tr>
+                <tr>
+                    <td><strong>Transparansi</strong></td>
+                    <td>Data saldo dan transaksi tersedia secara real-time</td>
+                </tr>
+                <tr>
+                    <td><strong>Keamanan</strong></td>
+                    <td>Perlindungan dana melalui otorisasi dan audit trail</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Analisis</strong></td>
+                    <td>Laporan keuangan untuk pengambilan keputusan</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2 class="collapsible">Pengguna Utama dan Manfaat</h2>
+        <div class="content">
+            <table>
+                <tr>
+                    <th>Peran</th>
+                    <th>Deskripsi</th>
+                    <th>Manfaat</th>
+                </tr>
+                <tr>
+                    <td><strong>Wali Santri</strong></td>
+                    <td>Orang tua/wali santri</td>
+                    <td>Dapat melakukan top-up, memonitor saldo, mengatur limit pengeluaran</td>
+                </tr>
+                <tr>
+                    <td><strong>Santri</strong></td>
+                    <td>Pelajar pesantren</td>
+                    <td>Transaksi digital dengan PIN, cek saldo realtime</td>
+                </tr>
+                <tr>
+                    <td><strong>Admin Unit</strong></td>
+                    <td>Pengelola unit (kantin, koperasi)</td>
+                    <td>POS untuk transaksi, rekap otomatis, sistem penagihan</td>
+                </tr>
+                <tr>
+                    <td><strong>Admin Keuangan</strong></td>
+                    <td>Pengelola keuangan pusat</td>
+                    <td>Rekonsiliasi setoran unit, pencatatan top-up tunai</td>
+                </tr>
+                <tr>
+                    <td><strong>Bendahara</strong></td>
+                    <td>Otoritas keuangan tertinggi</td>
+                    <td>Otorisasi proses keuangan, monitoring sistem</td>
+                </tr>
+                <tr>
+                    <td><strong>Pengurus Pondok</strong></td>
+                    <td>Manajemen pesantren</td>
+                    <td>Dashboard eksekutif keuangan santri</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2 class="collapsible">Cara Kerja: Alur Penggunaan Utama</h2>
+        <div class="content">
+            <h3>1. Penambahan Saldo (Top-up)</h3>
+            <p>Wali Santri dapat mengisi saldo santri melalui dua cara yang terintegrasi:</p>
+            <h4>Digital Otomatis (via BRIAPI BRIVA):</h4>
+            <ul>
+                <li>Wali meminta nomor Virtual Account (BRIVA) melalui aplikasi.</li>
+                <li>Wali melakukan transfer ke nomor BRIVA tersebut.</li>
+                <li>Sistem Saku Santri (melalui integrasi BRIAPI) secara <em>otomatis</em> mendeteksi pembayaran dan menambah saldo santri secara real-time.</li>
+                <li>Notifikasi saldo bertambah dikirim ke Wali dan Santri.</li>
+                <li><em>Tujuan:</em> Meminimalkan intervensi manual, mempercepat proses top-up, mengurangi risiko kesalahan pencatatan.</li>
+            </ul>
+            <h4>Tunai (via Admin Keuangan):</h4>
+            <ul>
+                <li>Wali menyerahkan uang tunai ke Admin Keuangan di pondok.</li>
+                <li>Admin Keuangan mencatat top-up ini di sistem Saku Santri melalui aplikasi mereka.</li>
+                <li>Sistem menambah saldo santri dan mengirim notifikasi.</li>
+                <li><em>Tujuan:</em> Memberikan opsi bagi wali yang tidak memiliki akses transfer bank, tetap mencatat top-up tunai secara digital untuk akuntabilitas.</li>
+            </ul>
+
+            <h3>2. Penggunaan Saldo (Transaksi Harian di Unit)</h3>
+            <pre><code class="language-mermaid">flowchart TD
+    Unit(Admin Unit<br/>Input Transaksi via POS) --> SantriID(Identifikasi Santri)
+    SantriID --> SistemData(Sistem<br/>Tampilkan Nama & Foto Santri)
+    SistemData --> Verify(Admin Unit<br/>Verifikasi Visual)
+    Verify --> PIN(Santri<br/>Input PIN Otorisasi)
+    PIN --> SaldoDeduct(Sistem<br/>Kurangi Saldo & Catat Transaksi)
+    SaldoDeduct --> Notif(Sistem<br/>Notifikasi ke Santri & Wali)</code></pre>
+            <ul>
+                <li>Admin Unit menggunakan PWA (berfungsi sebagai POS) untuk mencatat transaksi (pilih produk/layanan, <strong>input harga/diskon</strong>).</li>
+                <li>Santri diidentifikasi (misal via ID Card/input ID) di POS.</li>
+                <li>Sistem menampilkan <strong>nama dan foto santri</strong> pemilik saldo kepada Admin Unit untuk <strong>verifikasi visual</strong>.</li>
+                <li>Santri menginput <strong>PIN pribadi</strong> di perangkat untuk otorisasi.</li>
+                <li>Sistem mengurangi saldo santri dan mencatat detail transaksi (termasuk <strong>item dibeli</strong>, unit, santri pemilik saldo, dan <strong>santri yang secara fisik melakukan transaksi jika berbeda</strong>).</li>
+                <li>Notifikasi transaksi berhasil dikirim.</li>
+                <li><em>Tujuan:</em>
+                    <ul>
+                        <li><strong>Keamanan & Akuntabilitas (PIN + Foto):</strong> Memastikan hanya santri pemilik saldo yang mengotorisasi transaksi (atau mencatat jika diwakilkan), mencegah penyalahgunaan.</li>
+                        <li><strong>Efisiensi:</strong> Proses transaksi cepat dan tercatat digital.</li>
+                        <li><strong>Fleksibilitas POS:</strong> Memungkinkan penyesuaian harga atau diskon saat transaksi.</li>
+                        <li><strong>Data Detail:</strong> Pencatatan item membantu pelaporan dan rekonsiliasi.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>3. Pengelolaan Pendapatan Unit (Penagihan & Pelunasan)</h3>
+            <pre><code class="language-mermaid">flowchart TD
+    Transaksi(Transaksi Tercatat<br/>di Sistem) --> Rekap(Sistem<br/>Buat Rekap Transaksi per Unit)
+    Rekap --> Tagih(Admin Unit<br/>Ajukan Klaim Penagihan<br/>Gunakan Rekap Sistem<br/>Otorisasi PIN Admin Unit)
+    Tagih --> VerifKeu(Admin Keuangan<br/>Verifikasi Klaim<br/>Bandingkan dengan Rekap Sistem)
+    VerifKeu --> Otorisasi(Admin Keuangan & Bendahara<br/>Otorisasi Pelunasan<br/>Otorisasi PIN Ganda)
+    Otorisasi --> Bayar(Admin Keuangan<br/>Serahkan Uang Fisik)
+    Bayar --> Lunas(Sistem<br/>Catat Klaim Lunas)</code></pre>
+            <ul>
+                <li>Sistem secara otomatis merekap total transaksi digital per unit untuk periode tertentu.</li>
+                <li>Admin Unit menggunakan rekap ini sebagai dasar untuk mengajukan <strong>klaim penagihan</strong> kepada Admin Keuangan via sistem, diotorisasi dengan <strong>PIN Admin Unit</strong>.</li>
+                <li>Admin Keuangan melihat klaim penagihan dan memverifikasinya dengan laporan rekap transaksi unit di sistem.</li>
+                <li>Proses persetujuan pelunasan klaim ini memerlukan <strong>otorisasi PIN dari Admin Keuangan DAN Bendahara</strong> secara bersamaan di sistem.</li>
+                <li>Setelah otorisasi ganda, Admin Keuangan menyerahkan uang fisik kepada Admin Unit.</li>
+                <li>Sistem mencatat status klaim sebagai 'Lunas'.</li>
+                <li><em>Tujuan:</em>
+                    <ul>
+                        <li><strong>Akuntabilitas & Keamanan Finansial:</strong> Memastikan uang fisik yang diserahkan sesuai dengan transaksi digital, mencegah selisih/penyimpangan.</li>
+                        <li><strong>Otorisasi Ganda:</strong> Proses persetujuan finansial yang krusial melibatkan dua pihak berwenang (Admin Keuangan & Bendahara) untuk keamanan maksimal.</li>
+                        <li><strong>Audit Trail:</strong> Setiap langkah (pengajuan, verifikasi, otorisasi) tercatat lengkap.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>4. Pengaturan Limit Pengeluaran Harian</h3>
+            <pre><code class="language-mermaid">flowchart TD
+    Wali(Wali Santri<br/>PWA) --> A(Pilih Santri & Unit)
+    A --> B(Input Limit Harian)
+    B --> C(Simpan Limit<br/>Microservice Autentikasi/Pengguna)
+    C --> D(Sistem Validasi Limit)
+    D --> E(Notifikasi Konfirmasi ke Wali)
+    D --> F(Update Limit di Database)
+
+    Transaksi(Transaksi Santri) --> G(Periksa Limit<br/>Microservice Transaksi Harian/POS)
+    G --> H{Limit Terpenuhi?}
+    H -- Ya --> I(Transaksi Ditolak<br/>Notifikasi ke Santri & Wali)
+    H -- Tidak --> J(Lanjutkan Proses Transaksi)</code></pre>
+            <ul>
+                <li>Wali dapat menetapkan limit berbeda untuk unit berbeda (misal: Kantin Putra Rp 20.000/hari, Koperasi Rp 50.000/hari)</li>
+                <li>Sistem akan memeriksa limit saat santri mencoba bertransaksi</li>
+                <li>Jika transaksi melebihi limit, sistem akan menolak transaksi dan mengirim notifikasi</li>
+                <li>Wali menerima notifikasi real-time saat limit hampir atau sudah tercapai</li>
+                <li>Limit direset otomatis setiap hari pada waktu yang ditentukan</li>
+                <li><em>Tujuan:</em>
+                    <ul>
+                        <li><strong>Kontrol Keuangan:</strong> Memberikan wali alat untuk mengelola pengeluaran santri</li>
+                        <li><strong>Pencegahan Overspending:</strong> Membantu santri belajar mengelola keuangan</li>
+                        <li><strong>Fleksibilitas:</strong> Dapat disesuaikan per unit sesuai kebutuhan</li>
+                        <li><strong>Transparansi:</strong> Santri dan wali sama-sama mengetahui limit yang berlaku</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <h2 class="collapsible">Pilihan Arsitektur dan Teknologi</h2>
+        <div class="content">
+            <table>
+                <tr>
+                    <th>Teknologi</th>
+                    <th>Alasan Pemilihan</th>
+                </tr>
+                <tr>
+                    <td><strong>Microservices</strong></td>
+                    <td>
+                        - Fleksibilitas dalam pengembangan<br>
+                        - Kemudahan scaling microservice tertentu (misalnya, Microservice Transaksi Harian/POS jika traffic tinggi)<br>
+                        - Ketahanan sistem: jika satu bagian sistem mengalami masalah, bagian lain tetap berfungsi
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Python (FastAPI) & PostgreSQL</strong></td>
+                    <td>
+                        - Stack modern, efisien, dan powerful untuk backend<br>
+                        - FastAPI menawarkan performa tinggi untuk API<br>
+                        - PostgreSQL adalah database relasional yang handal untuk data keuangan
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Progressive Web Application (PWA)</strong></td>
+                    <td>
+                        - Akses melalui web browser di berbagai perangkat tanpa instalasi<br>
+                        - Pembaruan mudah dan konsisten di semua perangkat<br>
+                        - Fitur 'Add to Home Screen' dan notifikasi mirip aplikasi native
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Docker</strong></td>
+                    <td>
+                        - Lingkungan yang konsisten dan terisolasi<br>
+                        - Memudahkan deployment di Digital Ocean Ubuntu<br>
+                        - Manajemen dependensi yang efisien
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>BRIAPI BRIVA</strong></td>
+                    <td>Integrasi langsung untuk proses top-up digital yang otomatis dan terverifikasi oleh bank</td>
+                </tr>
+                <tr>
+                    <td><strong>Digital Ocean Ubuntu</strong></td>
+                    <td>Lingkungan server cloud yang fleksibel, skalabel, dan mudah dikelola untuk deployment aplikasi berbasis Docker</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2 class="collapsible">Fitur Keamanan Utama</h2>
+        <div class="content">
+            <table>
+                <tr>
+                    <th>Fitur Keamanan</th>
+                    <th>Deskripsi</th>
+                </tr>
+                <tr>
+                    <td><strong>PIN Otorisasi</strong></td>
+                    <td>Setiap transaksi santri dan proses keuangan krusial memerlukan otorisasi PIN.</td>
+                </tr>
+                <tr>
+                    <td><strong>Verifikasi Identitas Visual</strong></td>
+                    <td>Admin Unit memverifikasi identitas santri melalui foto di layar POS sebelum otorisasi PIN.</td>
+                </tr>
+                <tr>
+                    <td><strong>Otorisasi PIN Ganda</strong></td>
+                    <td>
+                        Proses pelunasan tagihan unit memerlukan otorisasi dari dua peran berwenang (Admin Keuangan & Bendahara) dengan PIN masing-masing. Sistem akan menampilkan:
+                        <ul>
+                            <li>Modal konfirmasi dengan detail lengkap klaim</li>
+                            <li>Validasi real-time format PIN</li>
+                            <li>Notifikasi hasil otorisasi ke semua pihak terkait</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Audit Log Komprehensif</strong></td>
+                    <td>
+                        <ul>
+                            <li>Semua aktivitas pengguna dan alur transaksi/keuangan penting dicatat</li>
+                            <li>Dilengkapi fitur pencarian dan filter untuk memudahkan investigasi</li>
+                            <li>Menyimpan detail lengkap termasuk user, waktu, dan perubahan data</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Notifikasi Real-time</strong></td>
+                    <td>
+                        <ul>
+                            <li>Sistem mengirimkan notifikasi in-app untuk setiap aktivitas penting</li>
+                            <li>Bendahara mendapatkan pemberitahuan saat ada klaim menunggu</li>
+                            <li>Riwayat notifikasi tersedia dengan timestamp</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Hashing PIN</strong></td>
+                    <td>PIN pengguna tidak disimpan dalam format yang dapat dibaca langsung.</td>
+                </tr>
+                <tr>
+                    <td><strong>HTTPS & Validasi Input</strong></td>
+                    <td>Melindungi data dalam transmisi dan di sistem dari kerentanan umum.</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2 class="collapsible">Proyeksi Masa Depan</h2>
+        <div class="content">
+            <p>Arsitektur yang dipilih memungkinkan penambahan fitur lanjutan seperti integrasi notifikasi ke WhatsApp/Email, modul ZIS, fitur penarikan saldo, laporan yang lebih komprehensif, hingga potensi integrasi dengan sistem informasi pesantren lainnya, seiring dengan pertumbuhan kebutuhan.</p>
+        </div>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumen Teknis - Saku Santri JARINABI (Bagian 2)</title>
+    <!-- Add Mermaid JS -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #202122;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f6f6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: #000;
+            border-bottom: 1px solid #a2a9b1;
+            padding-bottom: 0.25em;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        h1 {
+            font-size: 1.8em;
+            border-bottom: 1px solid #a2a9b1;
+        }
+        h2 {
+            font-size: 1.5em;
+        }
+        h3 {
+            font-size: 1.2em;
+        }
+        a {
+            color: #0645ad;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 1em 0;
+            width: 100%;
+        }
+        table, th, td {
+            border: 1px solid #a2a9b1;
+        }
+        th, td {
+            padding: 0.5em 1em;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f9fa;
+        }
+        .toc {
+            background-color: #f8f9fa;
+            border: 1px solid #a2a9b1;
+            padding: 10px;
+            display: table;
+            margin-bottom: 20px;
+        }
+        .toc-title {
+            font-weight: bold;
+            text-align: center;
+        }
+        .collapsible {
+            background-color: #f8f9fa;
+            color: #202122;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #a2a9b1;
+            text-align: left;
+            outline: none;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+        .active, .collapsible:hover {
+            background-color: #eaf3ff;
+        }
+        .content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            background-color: white;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: monospace;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .nav-button {
+            padding: 8px 16px;
+            background-color: #0645ad;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .nav-button:hover {
+            background-color: #0b5fe6;
+        }
+    </style>
+    <script>
+        // Generate Table of Contents
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create ToC for all headings h2, h3, h4
+            const tocList = document.getElementById('toc-list');
+            const headings = document.querySelectorAll('h2, h3, h4');
+            
+            headings.forEach(heading => {
+                const id = heading.textContent.toLowerCase().replace(/\s+/g, '-');
+                heading.id = id;
+                
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `#${id}`;
+                a.textContent = heading.textContent;
+                
+                if (heading.tagName === 'H3') {
+                    li.style.marginLeft = '20px';
+                    li.style.listStyleType = 'circle';
+                } else if (heading.tagName === 'H4') {
+                    li.style.marginLeft = '40px';
+                    li.style.listStyleType = 'square';
+                    li.style.fontSize = '0.9em';
+                }
+                
+                li.appendChild(a);
+                tocList.appendChild(li);
+            });
+
+            // Initialize Mermaid diagrams
+            if (typeof mermaid !== 'undefined') {
+                mermaid.init(undefined, '.language-mermaid');
+            }
+
+            // Collapsible functionality
+            const coll = document.getElementsByClassName('collapsible');
+            for (let i = 0; i < coll.length; i++) {
+                coll[i].addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    } 
+                });
+                
+                // Open first section by default
+                if (i === 0) {
+                    coll[i].classList.add('active');
+                    coll[i].nextElementSibling.style.maxHeight = coll[i].nextElementSibling.scrollHeight + 'px';
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <img src="asset/loco-eco-jarinabi.png" alt="Logo Saku Santri JARINABI" style="width: 100%; max-width: 400px; margin: 0 auto; display: block;">
+        <h1>Dokumen Teknis Pengembangan - Sistem Keuangan Santri (Saku Santri JARINABI) - Bagian 2</h1>
+        
+        <div class="toc">
+            <div class="toc-title">Daftar Isi</div>
+            <ul id="toc-list"></ul>
+        </div>
+
+        <h2 class="collapsible">4. Peran Pengguna dan Fungsi</h2>
+        <div class="content">
+            <table>
+                <tr>
+                    <th>Peran</th>
+                    <th>Deskripsi</th>
+                    <th>Fungsi Utama</th>
+                    <th>Antarmuka PWA</th>
+                </tr>
+                <tr>
+                    <td><strong>Wali Santri</strong></td>
+                    <td>Orang tua/wali santri.</td>
+                    <td>Top-up saldo santri (digital/tunai), lihat saldo & riwayat transaksi santri (termasuk detail item dari POS), terima notifikasi, <strong>mengelola beberapa santri</strong>, <strong>mengatur budgeting/aturan pengeluaran</strong> (fitur dasar).</td>
+                    <td>PWA Wali Santri</td>
+                </tr>
+                <tr>
+                    <td><strong>Santri</strong></td>
+                    <td>Pelajar di pesantren.</td>
+                    <td>PIN otorisasi transaksi harian, lihat saldo & riwayat transaksi diri (detail item), terima notifikasi.</td>
+                    <td>PWA Santri</td>
+                </tr>
+                <tr>
+                    <td><strong>Admin Keuangan</strong></td>
+                    <td>Petugas keuangan pondok, mengelola keuangan pusat dan kas fisik.</td>
+                    <td>Verifikasi & catat top-up tunai, lihat semua transaksi santri (detail item), monitoring umum, <strong>melihat rekap transaksi unit untuk verifikasi pelunasan fisik</strong>, <strong>mencatat pelunasan tagihan unit</strong> (dengan otorisasi PIN).</td>
+                    <td>PWA Admin Keuangan</td>
+                </tr>
+                <tr>
+                    <td><strong>Admin Unit</strong></td>
+                    <td>Petugas di unit pondok (Kantin Putra/Putri, Koperasi, dll.).</td>
+                    <td>Input transaksi harian menggunakan antarmuka <strong>POS sederhana</strong> (termasuk ubah harga/diskon), <strong>verifikasi identitas santri saat transaksi</strong>, lihat rekap transaksi unit sendiri, <strong>menggunakan rekap sistem sebagai dasar penagihan uang fisik</strong> ke Admin Keuangan (dengan otorisasi PIN).</td>
+                    <td>PWA Admin Unit (dengan fungsionalitas POS)</td>
+                </tr>
+                <tr>
+                    <td><strong>Bendahara Pondok</strong></td>
+                    <td>Petugas dengan otoritas tertinggi di bidang keuangan.</td>
+                    <td>
+                        <ul>
+                            <li><strong>Otorisasi ganda</strong> pelunasan tagihan unit (dengan PIN Admin Keuangan & Bendahara)</li>
+                            <li><strong>Monitoring</strong> keuangan global via dashboard interaktif</li>
+                            <li><strong>Notifikasi real-time</strong> untuk klaim menunggu</li>
+                            <li><strong>Audit log</strong> dengan fitur pencarian dan filter</li>
+                            <li><strong>Detail klaim</strong> dengan rekap transaksi per item</li>
+                        </ul>
+                    </td>
+                    <td>PWA Bendahara (dengan fitur otorisasi ganda, notifikasi, dan audit log)</td>
+                </tr>
+                <tr>
+                    <td><strong>Pengurus Pondok</strong></td>
+                    <td>Pimpinan/pengambil keputusan di pondok.</td>
+                    <td>Melihat <strong>Dasbor Eksekutif</strong> yang menampilkan ringkasan finansial pondok.</td>
+                    <td>PWA Pengurus Pondok (hanya tampilan dashboard)</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2 class="collapsible">5. Alur Kerja Inti</h2>
+        <div class="content">
+            <h3>5.1. Alur: Top-up Saldo</h3>
+            <h4>5.1.1. Alur Top-up Digital (BRIAPI BRIVA - Otomatis):</h4>
+            <pre><code class="language-mermaid">flowchart TD
+    Wali(Wali Santri<br/>PWA) --> A(Pilih Top-up Digital<br/>Microservice Top-up)
+    A --> B(Buat VA BRIVA<br/>Microservice Integrasi Payment Gateway)
+    B --> Wali(Tampilkan No. BRIVA)
+    Wali -- Transfer Dana --> C(Bank/Channel Pembayaran)
+    C -- Notifikasi Pembayaran Berhasil (Callback/Webhook) --> D(Terima Callback<br/>Microservice Integrasi Payment Gateway)
+    D --> E(Proses Notifikasi<br/>Microservice Top-up)
+    E --> F(Tambah Saldo Santri<br/>Microservice Saldo Santri)
+    F --> G(Saldo Santri Bertambah)
+    F -- Trigger Event --> H(Kirim Notifikasi Top-up Berhasil<br/>Microservice Notifikasi)
+    H --> Wali(Terima Notifikasi<br/>In-App)</code></pre>
+            <h4>5.1.2. Alur Top-up Tunai (via Admin Keuangan):</h4>
+            <pre><code class="language-mermaid">flowchart TD
+    Wali(Wali Santri) -- Berikan Uang Tunai & Info Santri --> AdminKeu(Admin Keuangan)
+    AdminKeu -- Input Top-up Tunai<br/>(Via PWA Admin Keuangan) --> A(Terima Input Top-up Tunai<br/>Microservice Top-up)
+    A --> B(Validasi Santri<br/>Microservice Autentikasi/Pengguna)
+    B --> C(Tambah Saldo Santri<br/>Microservice Saldo Santri)
+    C --> D(Saldo Santri Bertambah)
+    C -- Trigger Event --> E(Kirim Notifikasi Top-up Berhasil<br/>Microservice Notifikasi)
+    E --> Santri(Terima Notifikasi<br/>In-App)
+    E --> Wali(Terima Notifikasi<br/>In-App)
+    C --> F(Catat Transaksi Top-up Tunai)</code></pre>
+
+            <h3>5.2. Alur: Transaksi Harian Menggunakan POS Sederhana</h3>
+            <pre><code class="language-mermaid">flowchart TD
+    AdminUnit(Admin Unit<br/>PWA POS) --> A(Pilih Produk/Layanan<br/>Input Jumlah/Harga/Diskon)
+    A --> B(Hitung Total Transaksi)
+    A --> C(Identifikasi Santri Pembeli<br/>Input ID / Scan)
+    C --> D(Ambil Data Santri<br/>Microservice Autentikasi/Pengguna)
+    D --> AdminUnit(Tampilkan Nama & Foto Santri)
+    AdminUnit -- Verifikasi Visual --> E{Identitas Cocok?}
+    E -- Ya --> F(Minta PIN Santri<br/>PWA Santri/Lokal)
+    E -- Tidak (Pengguna Beda) --> G(Identifikasi Santri Pengguna Fisik<br/>Input ID / Scan)
+    G --> H(Ambil Data Santri Pengguna<br/>Microservice Autentikasi/Pengguna)
+    H --> AdminUnit(Tampilkan Nama & Foto Santri Pengguna Fisik)
+    AdminUnit -- Verifikasi Visual --> I(Minta PIN Santri PEMILIK Saldo<br/>PWA Santri/Lokal)
+
+    F --> J(Verifikasi PIN<br/>Microservice Autentikasi/Pengguna)
+    I --> J
+
+    J -- PIN Valid --> K(Trigger Pengurangan Saldo<br/>Microservice Transaksi Harian / POS)
+    K --> L(Kurangi Saldo Santri<br/>Microservice Saldo Santri)
+    L --> M(Saldo Berkurang)
+    K --> N(Catat Transaksi Detail<br/>Item, Unit, Pemilik, Pengguna<br/>Microservice Transaksi Harian / POS)
+    N -- Trigger Event --> O(Kirim Notifikasi Transaksi<br/>Microservice Notifikasi)
+    O --> Santri(Terima Notifikasi<br/>In-App)
+    O --> Wali(Terima Notifikasi<br/>In-App)
+
+    J -- PIN Tidak Valid --> P(Transaksi Gagal<br/>Catat Log Gagal)</code></pre>
+
+            <h3>5.3. Alur: Pelaporan Transaksi Unit & Penagihan/Pelunasan Formal</h3>
+            <pre><code class="language-mermaid">flowchart TD
+    A(Transaksi Dicatat Detail<br/>Microservice Transaksi Harian/POS) --> B(Data Agregat Transaksi Unit<br/>Microservice Laporan/Rekap)
+
+    B --> C(Admin Unit<br/>Lihat Rekap Unit di PWA)
+    C --> D(Admin Unit<br/>Buat Klaim Penagihan<br/>Microservice Keuangan Internal/Penagihan)
+    D -- Trigger Notifikasi --> AdminKeu(Admin Keuangan<br/>Terima Notifikasi<br/>In-App)
+
+    AdminKeu --> E(Admin Keuangan<br/>Lihat Klaim Penagihan & Rekap Unit<br/>Verifikasi jumlah<br/>PWA Admin Keuangan, Microservice Laporan/Rekap)
+    E --> F(Admin Keuangan<br/>Proses Pelunasan Klaim<br/>Microservice Keuangan Internal/Penagihan)
+    F -- Minta Otorisasi PIN --> AdminKeu(Input PIN Admin Keuangan)
+    F -- Minta Otorisasi PIN --> Bendahara(Input PIN Bendahara)
+
+    AdminKeu -- Beri Uang Fisik --> AdminUnit(Admin Unit<br/>Terima Uang Fisik)
+
+    F -- Otorisasi Valid --> G(Catat Status Klaim: Lunas<br/>Microservice Keuangan Internal/Penagihan)
+    G -- Trigger Notifikasi --> AdminUnit(Admin Unit<br/>Terima Notifikasi Klaim Lunas<br/>In-App)
+    G -- Trigger Notifikasi --> AdminKeu
+    G -- Trigger Notifikasi --> Bendahara
+
+    F -- Otorisasi Tidak Valid --> H(Catat Status Klaim: Gagal/Pending)</code></pre>
+
+            <h3>5.4. Alur: Monitoring & Notifikasi</h3>
+            <pre><code class="language-mermaid">flowchart LR
+    DataServices(Microservice Saldo,<br/>Transaksi Harian/POS,<br/>Top-up,<br/>Keuangan Internal) -- Trigger Event --> Notif(Microservice Notifikasi)
+    Notif --> PWAUsers(PWA Wali, Santri, Admin Keu,<br/>Admin Unit, Bendahara,<br/>Pengurus Pondok)
+
+    Laporan(Microservice Laporan/Rekap) --> AdminKeu
+    Laporan --> AdminUnit
+    Laporan --> Bendahara
+    Laporan --> Pengurus(Pengurus Pondok<br/>PWA Dasbor Eksekutif)
+    Laporan --> Wali
+    Laporan --> Santri</code></pre>
+        </div>
+
+        <h2 class="collapsible">6. Fitur Dasar (Scope Proyek Awal)</h2>
+        <div class="content">
+            <ul>
+                <li>Manajemen Akun Pengguna (Semua Peran)</li>
+                <li>Login & Otorisasi Berbasis Peran</li>
+                <li><strong>Fitur Wali Santri:</strong>
+                    <ul>
+                        <li>Lihat Saldo & Riwayat Transaksi Santri (termasuk detail item dari POS)</li>
+                        <li>Top-up Saldo (Digital BRIVA Otomatis & Tunai via Admin Keu)</li>
+                        <li>Notifikasi In-App</li>
+                        <li>Mengelola Multi-Santri dalam Satu Akun Wali</li>
+                        <li>Mengatur Budgeting/Aturan Pengeluaran (fitur dasar)</li>
+                        <li>Menetapkan Limit Pengeluaran Harian per Unit</li>
+                    </ul>
+                </li>
+                <li><strong>Fitur Santri:</strong>
+                    <ul>
+                        <li>PIN Otorisasi Transaksi Harian</li>
+                        <li>Lihat Saldo & Riwayat Transaksi Diri (detail item)</li>
+                        <li>Notifikasi In-App</li>
+                        <li>Peringatan saat transaksi melebihi limit yang ditetapkan wali</li>
+                    </ul>
+                </li>
+                <li><strong>Fitur Admin Unit:</strong>
+                    <ul>
+                        <li>Antarmuka POS Sederhana (Input transaksi, pilih produk/layanan, ubah harga & diskon)</li>
+                        <li>Verifikasi Identitas Santri (dengan nama & foto) saat transaksi</li>
+                        <li>Lihat Rekap Transaksi Harian/Periode di Unitnya</li>
+                        <li>Mulai Proses Penagihan Uang Fisik berdasarkan rekap sistem (dengan otorisasi PIN)</li>
+                    </ul>
+                </li>
+                <li><strong>Fitur Admin Keuangan:</strong>
+                    <ul>
+                        <li>Verifikasi & Catat Top-up Tunai</li>
+                        <li>Lihat Semua Transaksi Santri (dengan detail item)</li>
+                        <li>Monitoring Saldo Semua Santri</li>
+                        <li>Lihat Rekap Transaksi Semua Unit</li>
+                        <li>Menerima & Memproses Pelunasan Tagihan Unit (dengan Otorisasi PIN)</li>
+                    </ul>
+                </li>
+                <li><strong>Fitur Bendahara Pondok:</strong>
+                    <ul>
+                        <li>Otorisasi Ganda Pelunasan Tagihan Unit</li>
+                        <li>Monitoring Keuangan Global via Dashboard</li>
+                        <li>Notifikasi Real-time untuk Klaim Menunggu</li>
+                        <li>Audit Log dengan Fitur Pencarian dan Filter</li>
+                    </ul>
+                </li>
+                <li><strong>Fitur Pengurus Pondok:</strong>
+                    <ul>
+                        <li>Dasbor Eksekutif: Ringkasan finansial pondok</li>
+                    </ul>
+                </li>
+                <li><strong>Fitur Inti Sistem:</strong>
+                    <ul>
+                        <li>Pencatatan Transaksi Detail (termasuk item, unit, santri pemilik, santri pengguna)</li>
+                        <li>Log Aktivitas (Audit Log)</li>
+                        <li>Otorisasi PIN untuk Transaksi Santri & Alur Keuangan Internal</li>
+                        <li>Integrasi Otomatis BRIAPI BRIVA (Create VA, Callback)</li>
+                        <li>Sistem Formal Pencatatan Penagihan Unit & Pelunasan</li>
+                        <li>Notifikasi In-App Only</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="dokumen-teknis.html" class="nav-button">Previous</a>
+            <a href="dokumen-teknis-c.html" class="nav-button">Next</a>
+        </div>

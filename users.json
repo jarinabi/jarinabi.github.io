@@ -1,0 +1,67 @@
+{
+    "santri": [
+        {
+            "nama": "Ahmad Manaf",
+            "nis": "123456789",
+            "briva_number": "77777123123456789",
+            "jenisKelamin": "Laki-laki",
+            "namaWali": "Budi Manaf",
+            "hpWali": "08123456789",
+            "pinSantri": "123456",
+            "pinWali": "654321"
+        },
+        {
+            "nama": "Dewi Lestari",
+            "nis": "987654321",
+            "briva_number": "77777123987654321",
+            "jenisKelamin": "Perempuan",
+            "namaWali": "Lina Lestari",
+            "hpWali": "08198765432",
+            "pinSantri": "234567",
+            "pinWali": "765432"
+        },
+        {
+            "nama": "Ibrahim Arief",
+            "nis": "567891234",
+            "briva_number": "77777123567891234",
+            "jenisKelamin": "Laki-laki",
+            "namaWali": "Hasan Arief",
+            "hpWali": "08156789123",
+            "pinSantri": "345678",
+            "pinWali": "876543"
+        },
+        {
+            "nama": "Nur Haliza",
+            "nis": "432198765",
+            "briva_number": "77777123432198765",
+            "jenisKelamin": "Perempuan",
+            "namaWali": "Rudi Haliza",
+            "hpWali": "08143219876",
+            "pinSantri": "456789",
+            "pinWali": "987654"
+        }
+    ],
+    "admin_unit": [
+        {
+            "unit": "Kantin Putra",
+            "pin": "111111"
+        },
+        {
+            "unit": "Kantin Putri",
+            "pin": "222222"
+        },
+        {
+            "unit": "Koperasi",
+            "pin": "333333"
+        }
+    ],
+    "bendahara": {
+        "pin": "444444"
+    },
+    "admin_keuangan": {
+        "pin": "555555"
+    },
+    "pengurus": {
+        "pin": "666666"
+    }
+}

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Unit - Saku Santri JARINABI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        .product-item {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .product-item:hover {
+            background-color: #f8f9fa;
+        }
+        .cart-item {
+            border-bottom: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Saku Santri JARINABI</a>
+            <div class="d-flex align-items-center">
+                <div class="dropdown me-3">
+                    <button class="btn btn-light position-relative" id="notifDropdown" data-bs-toggle="dropdown">
+                        <i class="bi bi-bell"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            3
+                            <span class="visually-hidden">unread notifications</span>
+                        </span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end px-2" style="width: 320px;">
+                        <li><h6 class="dropdown-header">Notifikasi Terbaru</h6></li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <div class="d-flex justify-content-between">
+                                    <span>Klaim Penagihan Disetujui</span>
+                                    <small class="text-muted">1 jam lalu</small>
+                                </div>
+                                <small>Total: Rp 850.000</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <div class="d-flex justify-content-between">
+                                    <span>Pelunasan Diterima</span>
+                                    <small class="text-muted">3 jam lalu</small>
+                                </div>
+                                <small>Total: Rp 1.200.000</small>
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-center" href="#">Lihat Semua Notifikasi</a></li>
+                    </ul>
+                </div>
+                <span class="navbar-text me-3">Admin Unit - Kantin Putra</span>
+                <a href="rekap_admin_unit.html" class="btn btn-outline-light me-2">Rekap</a>
+                <a href="login.html" class="btn btn-outline-light">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <!-- Product List -->
+            <div class="col-md-5">
+                <div class="card mb-3">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Daftar Produk</h5>
+                        <div>
+                            <button class="btn btn-sm btn-success me-1" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                                <i class="bi bi-plus"></i> Tambah
+                            </button>
+                            <button class="btn btn-sm btn-warning me-1" id="editProductBtn" disabled>
+                                <i class="bi bi-pencil"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-danger" id="deleteProductBtn" disabled>
+                                <i class="bi bi-trash"></i> Hapus
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <div class="list-group-item product-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>Nasi Goreng</div>
+                                    <div>Rp 8.000</div>
+                                </div>
+                            </div>
+                            <div class="list-group-item product-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>Mie Goreng</div>
+                                    <div>Rp 7.000</div>
+                                </div>
+                            </div>
+                            <div class="list-group-item product-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>Nasi Uduk</div>
+                                    <div>Rp 6.000</div>
+                                </div>
+                            </div>
+                            <div class="list-group-item product-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>Bubur Ayam</div>
+                                    <div>Rp 5.000</div>
+                                </div>
+                            </div>
+                            <div class="list-group-item product-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>Es Teh</div>
+                                    <div>Rp 3.000</div>
+                                </div>
+                            </div>
+                            <div class="list-group-item product-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>Es Jeruk</div>
+                                    <div>Rp 4.000</div>
+                                </div>
+                            </div>
+                            <div class="list-group-item product-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>Air Mineral</div>
+                                    <div>Rp 2.000</div>
+                                </div>
+                            </div>
+                            <div class="list-group-item product-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>Kopi</div>
+                                    <div>Rp 3.000</div>
+                                </div>
+                            </div>
+                            <div class="list-group-item product-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>Roti Bakar</div>
+                                    <div>Rp 5.000</div>
+                                </div>
+                            </div>
+                            <div class="list-group-item product-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>Martabak Mini</div>
+                                    <div>Rp 10.000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction Panel -->
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5>Transaksi</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Santri Verification -->
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded h-100">
+                                    <h6>Verifikasi Santri</h6>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="NIS Santri">
+                                        <button class="btn btn-primary">Cari</button>
+                                    </div>
+                                    <div class="text-center">
+                                        <img src="asset/Ahmad-Manaf.png" class="rounded-circle mb-2" width="100" alt="Foto Santri">
+                                        <p class="mb-0">Ahmad Manaf (123456789)</p>
+                                        <small class="text-muted">Saldo: Rp 250.000</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Cart Items -->
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded h-100">
+                                    <h6>Item Transaksi</h6>
+                                    <div class="list-group mb-2" style="max-height: 150px; overflow-y: auto;">
+                                        <div class="list-group-item cart-item">
+                                            <div class="d-flex justify-content-between">
+                                                <div>Nasi Goreng</div>
+                                                <div class="text-danger">-Rp 8.000</div>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item cart-item">
+                                            <div class="d-flex justify-content-between">
+                                                <div>Es Teh</div>
+                                                <div class="text-danger">-Rp 3.000</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between fw-bold">
+                                        <div>Total</div>
+                                        <div class="text-danger">-Rp 11.000</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <!-- Transaction Type -->
+                                <div class="mb-3">
+                                    <label class="form-label">Jenis Transaksi</label>
+                                    <select class="form-select" id="transactionType">
+                                        <option value="self" selected>Untuk Diri Sendiri</option>
+                                        <option value="friend">Untuk Teman</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <!-- Manual Price Adjustment -->
+                                <div class="mb-3">
+                                    <label class="form-label">Penyesuaian Harga</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Rp</span>
+                                        <input type="number" class="form-control" placeholder="Masukkan harga manual">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <!-- Discount -->
+                                <div class="mb-3">
+                                    <label class="form-label">Diskon</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" placeholder="Persentase diskon">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Friend Selection (hidden by default) -->
+                        <div class="mb-3" id="friendSelection" style="display: none;">
+                            <label class="form-label">Pilih Teman</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="NIS Teman" id="friendNIS">
+                                <button class="btn btn-primary">Cari</button>
+                            </div>
+                            <!-- Auto show friend info in simulation -->
+                            <div class="text-center border rounded p-3" id="friendInfo">
+                                <img src="asset/Dewi-Lestari.png" class="rounded-circle mb-2" width="100" alt="Foto Teman">
+                                <p class="mb-0">Dewi Lestari (987654321)</p>
+                                <small class="text-muted">Saldo: Rp 180.000</small>
+                            </div>
+                        </div>
+
+                        <!-- Finalize Transaction -->
+                        <button class="btn btn-success w-100 mt-2" data-bs-toggle="modal" data-bs-target="#pinModal">Proses Transaksi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIN Modal -->
+    <div class="modal fade" id="pinModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Masukkan PIN Santri</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="mb-3">
+                        <input type="password" class="form-control text-center" id="pinInput" placeholder="******" readonly>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('1')">1</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('2')">2</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('3')">3</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('4')">4</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('5')">5</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('6')">6</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('7')">7</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('8')">8</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('9')">9</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="clearPin()">C</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('0')">0</button></div>
+                        <div class="col-4"><button class="btn btn-outline-danger w-100 py-3" onclick="deletePin()">⌫</button></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" onclick="verifyPin()">Verifikasi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Produk Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nama Produk</label>
+                        <input type="text" class="form-control" placeholder="Contoh: Nasi Goreng">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Harga</label>
+                        <div class="input-group">
+                            <span class="input-group-text">Rp</span>
+                            <input type="number" class="form-control" placeholder="Harga produk">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Product selection functionality
+        const productItems = document.querySelectorAll('.product-item');
+        const editBtn = document.getElementById('editProductBtn');
+        const deleteBtn = document.getElementById('deleteProductBtn');
+        
+        productItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                productItems.forEach(i => i.classList.remove('active'));
+                // Add active class to clicked item
+                this.classList.add('active');
+                // Enable edit and delete buttons
+                editBtn.disabled = false;
+                deleteBtn.disabled = false;
+            });
+        });
+
+        // Add Bootstrap Icons
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css';
+        document.head.appendChild(link);
+
+        // Toggle friend selection based on transaction type
+        document.getElementById('transactionType').addEventListener('change', function() {
+            const friendSelection = document.getElementById('friendSelection');
+            friendSelection.style.display = this.value === 'friend' ? 'block' : 'none';
+        });
+
+        // Friend search functionality - simplified for simulation
+        document.querySelector('#friendSelection button').addEventListener('click', function() {
+            const nis = document.getElementById('friendNIS').value;
+            if (!nis) {
+                alert('Harap masukkan NIS teman');
+                return;
+            }
+            // Auto-fill friend data in simulation
+            document.getElementById('friendNIS').value = '987654321';
+        });
+
+        // PIN functions
+        function appendPin(num) {
+            const pinInput = document.getElementById('pinInput');
+            if (pinInput.value.length < 6) {
+                pinInput.value += num;
+            }
+        }
+
+        function deletePin() {
+            const pinInput = document.getElementById('pinInput');
+            pinInput.value = pinInput.value.slice(0, -1);
+        }
+
+        function clearPin() {
+            document.getElementById('pinInput').value = '';
+        }
+
+        function verifyPin() {
+            const enteredPin = document.getElementById('pinInput').value;
+            const transactionType = document.getElementById('transactionType').value;
+            const currentSantri = document.querySelector('.text-center p').textContent;
+            
+            if (transactionType === 'friend') {
+                const friendNIS = document.querySelector('#friendSelection input').value;
+                if (!friendNIS) {
+                    alert('Harap masukkan NIS teman terlebih dahulu');
+                    return;
+                }
+                // Implement friend transaction logic
+                alert(`Transaksi untuk teman (NIS: ${friendNIS})\nDilakukan oleh: ${currentSantri}\nPIN: ${enteredPin}`);
+            } else {
+                // Implement self transaction logic
+                alert(`Transaksi untuk diri sendiri\nSantri: ${currentSantri}\nPIN: ${enteredPin}`);
+            }
+            
+            // On success:
+            // const modal = bootstrap.Modal.getInstance(document.getElementById('pinModal'));
+            // modal.hide();
+            // Proceed with transaction
+        }
+    </script>
+</body>
+</html>

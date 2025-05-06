@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santri - Saku Santri JARINABI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .saldo-display {
+            font-size: 2.5rem;
+        }
+        .transaction-item {
+            border-left: 4px solid #0d6efd;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Saku Santri JARINABI</a>
+            <div class="d-flex">
+                <span class="navbar-text me-3">Santri</span>
+                <a href="login.html" class="btn btn-outline-light">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-md-4">
+                <!-- Saldo Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5>Saldo Anda</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="saldo-display my-3">Rp 250.000</div>
+                        <small class="text-muted">Terakhir diperbarui: 04/05/2025 10:15</small>
+                    </div>
+                </div>
+
+                <!-- Data Pokok Santri Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5>Data Pokok Santri</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="asset/Ahmad-Manaf.png" alt="Profile Picture" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px;">
+                        <div class="mb-3">
+                            <label class="form-label">Nama</label>
+                            <p class="form-control-static">Ahmad Manaf</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">NIS</label>
+                            <p class="form-control-static">123456789</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Jenis Kelamin</label>
+                            <p class="form-control-static">Laki-laki</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nama Wali</label>
+                            <p class="form-control-static">Budi Manaf</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">HP Wali</label>
+                            <p class="form-control-static">08123456789</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nomor BRIVA</label>
+                            <p class="form-control-static">77777123123456789</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PIN Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5>Pengaturan PIN</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">PIN Saat Ini</label>
+                            <input type="password" class="form-control" placeholder="****" disabled>
+                        </div>
+                        <button class="btn btn-outline-primary me-2">Ubah PIN</button>
+                        <button class="btn btn-outline-secondary">Lupa PIN</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-md-8">
+                <!-- Rekap Bulanan Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5>Rekap Bulan Ini (Mei 2025)</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <h6>Saldo Awal</h6>
+                                        <h4>Rp 500.000</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <h6>Total Pemasukan</h6>
+                                        <h4 class="text-success">Rp 200.000</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <h6>Saldo Akhir</h6>
+                                        <h4>Rp 250.000</h4>
+                                        <small class="text-muted">(500.000 + 200.000 - 450.000)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaksi Section -->
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5>Riwayat Transaksi</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <th>Unit</th>
+                                        <th>Nominal</th>
+                                        <th>Item</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>04/05/2025</td>
+                                        <td>Kantin Putra</td>
+                                        <td class="text-danger">-Rp 15.000</td>
+                                        <td>Makan siang</td>
+                                    </tr>
+                                    <tr>
+                                        <td>03/05/2025</td>
+                                        <td>Koperasi</td>
+                                        <td class="text-danger">-Rp 25.000</td>
+                                        <td>Buku tulis</td>
+                                    </tr>
+                                    <tr>
+                                        <td>02/05/2025</td>
+                                        <td>Top-up</td>
+                                        <td class="text-success">+Rp 100.000</td>
+                                        <td>Transfer Bank</td>
+                                    </tr>
+                                    <tr>
+                                        <td>01/05/2025</td>
+                                        <td>Administrasi</td>
+                                        <td class="text-danger">-Rp 50.000</td>
+                                        <td>Iuran Acara</td>
+                                    </tr>
+                                    <tr>
+                                        <td>30/04/2025</td>
+                                        <td>Administrasi</td>
+                                        <td class="text-success">+Rp 20.000</td>
+                                        <td>Hadiah Prestasi</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

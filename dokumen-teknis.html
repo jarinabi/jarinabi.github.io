@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumen Teknis - Saku Santri JARINABI</title>
+    <!-- Add Mermaid JS -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #202122;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f6f6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: #000;
+            border-bottom: 1px solid #a2a9b1;
+            padding-bottom: 0.25em;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        h1 {
+            font-size: 1.8em;
+            border-bottom: 1px solid #a2a9b1;
+        }
+        h2 {
+            font-size: 1.5em;
+        }
+        h3 {
+            font-size: 1.2em;
+        }
+        a {
+            color: #0645ad;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 1em 0;
+            width: 100%;
+        }
+        table, th, td {
+            border: 1px solid #a2a9b1;
+        }
+        th, td {
+            padding: 0.5em 1em;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f9fa;
+        }
+        .toc {
+            background-color: #f8f9fa;
+            border: 1px solid #a2a9b1;
+            padding: 10px;
+            display: table;
+            margin-bottom: 20px;
+        }
+        .toc-title {
+            font-weight: bold;
+            text-align: center;
+        }
+        .collapsible {
+            background-color: #f8f9fa;
+            color: #202122;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #a2a9b1;
+            text-align: left;
+            outline: none;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+        .active, .collapsible:hover {
+            background-color: #eaf3ff;
+        }
+        .content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            background-color: white;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: monospace;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .nav-button {
+            padding: 8px 16px;
+            background-color: #0645ad;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .nav-button:hover {
+            background-color: #0b5fe6;
+        }
+    </style>
+    <script>
+        // Generate Table of Contents
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create ToC for all headings h2, h3, h4
+            const tocList = document.getElementById('toc-list');
+            const headings = document.querySelectorAll('h2, h3, h4');
+            
+            headings.forEach(heading => {
+                const id = heading.textContent.toLowerCase().replace(/\s+/g, '-');
+                heading.id = id;
+                
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `#${id}`;
+                a.textContent = heading.textContent;
+                
+                if (heading.tagName === 'H3') {
+                    li.style.marginLeft = '20px';
+                    li.style.listStyleType = 'circle';
+                } else if (heading.tagName === 'H4') {
+                    li.style.marginLeft = '40px';
+                    li.style.listStyleType = 'square';
+                    li.style.fontSize = '0.9em';
+                }
+                
+                li.appendChild(a);
+                tocList.appendChild(li);
+            });
+
+            // Initialize Mermaid diagrams
+            if (typeof mermaid !== 'undefined') {
+                mermaid.init(undefined, '.language-mermaid');
+            }
+
+            // Collapsible functionality
+            const coll = document.getElementsByClassName('collapsible');
+            for (let i = 0; i < coll.length; i++) {
+                coll[i].addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    } 
+                });
+                
+                // Open first section by default
+                if (i === 0) {
+                    coll[i].classList.add('active');
+                    coll[i].nextElementSibling.style.maxHeight = coll[i].nextElementSibling.scrollHeight + 'px';
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <img src="asset/loco-eco-jarinabi.png" alt="Logo Saku Santri JARINABI" style="width: 100%; max-width: 400px; margin: 0 auto; display: block;">
+        <h1>Dokumen Teknis Pengembangan - Sistem Keuangan Santri (Saku Santri JARINABI)</h1>
+        
+        <div class="toc">
+            <div class="toc-title">Daftar Isi</div>
+            <ul id="toc-list"></ul>
+        </div>
+
+        <h2 class="collapsible">1. Ringkasan Proyek</h2>
+        <div class="content">
+            <h3>Nama Proyek: Saku Santri JARINABI</h3>
+            <h4>Ringkasan Eksekutif:</h4>
+            <p>Saku Santri adalah sistem keuangan digital yang dirancang khusus untuk lingkungan pesantren guna mengelola dana saku santri.</p>
+            <p>Sistem ini akan memfasilitasi proses top-up saldo santri secara digital maupun tunai, pencatatan transaksi harian di unit-unit pondok (seperti kantin, koperasi, laundry) menggunakan antarmuka Point of Sale (POS) sederhana, serta menyediakan pelaporan dan rekap saldo yang akurat dan real-time.</p>
+            <p>Sistem ini bertujuan meningkatkan transparansi, efisiensi, akuntabilitas, dan keamanan dalam pengelolaan keuangan santri, termasuk formalisasi proses penagihan dan pembayaran antara unit dengan keuangan pusat pondok.</p>
+            <h4>Tujuan Sistem:</h4>
+            <ul>
+                <li>Memudahkan kontrol keuangan santri oleh wali melalui akses informasi saldo dan transaksi.</li>
+                <li>Mencatat transaksi unit pondok secara digital menggunakan POS sederhana.</li>
+                <li>Menjamin akuntabilitas transaksi dan aliran dana dengan otorisasi, log aktivitas, dan alur penagihan/pelunasan formal.</li>
+                <li>Menyediakan rekap saldo real-time dan notifikasi penting kepada pengguna.</li>
+                <li>Memfasilitasi proses top-up yang mudah melalui berbagai metode.</li>
+                <li>Memberikan visibilitas keuangan unit bagi Admin Keuangan dan ringkasan eksekutif bagi Pengurus Pondok.</li>
+            </ul>
+        </div>
+
+        <h2 class="collapsible">2. Arsitektur Sistem</h2>
+        <div class="content">
+            <h3>Pendekatan Arsitektur: Microservices</h3>
+            <p>Sistem dibangun menggunakan pendekatan arsitektur microservices, di mana fungsionalitas dipecah menjadi sekumpulan layanan yang kecil, independen, dan dapat di-deploy secara terpisah. <strong>Microservices</strong> ini berkomunikasi satu sama lain melalui API (RESTful API direkomendasikan sebagai awal).</p>
+            <h4>Manfaat Arsitektur Microservices:</h4>
+            <ul>
+                <li><strong>Skalabilitas:</strong> Masing-masing microservice dapat diskalakan secara independen sesuai kebutuhannya.</li>
+                <li><strong>Ketahanan (Resilience):</strong> Kegagalan pada satu microservice tidak langsung mempengaruhi keseluruhan sistem.</li>
+                <li><strong>Fleksibilitas Teknologi:</strong> Memungkinkan penggunaan teknologi (framework, library) yang paling sesuai untuk microservice tertentu (meskipun dalam kasus ini utamanya Python).</li>
+                <li><strong>Kemudahan Pengembangan & Deployment:</strong> Tim developer dapat bekerja dan mendeploy microservice secara independen.</li>
+            </ul>
+            <h4>Diagram Arsitektur (Konseptual Tingkat Tinggi):</h4>
+            <pre><code class="language-mermaid">graph LR
+    A[Wali Santri<br/>PWA] -->|HTTP/HTTPS Requests| B(Internet/Gateway)
+    Santri[Santri<br/>PWA] -->|HTTP/HTTPS Requests| B
+    AdminUnit[Admin Unit<br/>PWA] -->|HTTP/HTTPS Requests| B
+    AdminKeu[Admin Keuangan<br/>PWA] -->|HTTP/HTTPS Requests| B
+    Bendahara[Bendahara<br/>PWA] -->|HTTP/HTTPS Requests| B
+    Pengurus[Pengurus Pondok<br/>PWA] -->|HTTP/HTTPS Requests| B
+
+    B --> C(Load Balancer / API Gateway)
+   
+    C --> D(Microservice Autentikasi/Pengguna)
+    C --> E(Microservice Saldo Santri)
+    C --> F(Microservice Transaksi Harian/POS)
+    C --> G(Microservice Top-up)
+    C --> H(Microservice Notifikasi)
+    C --> I(Microservice Laporan/Rekap)
+    C --> J(Microservice Keuangan Internal/Penagihan)
+    C --> K(Microservice Integrasi Payment Gateway)
+
+    D -- Komunikasi Internal --> E
+    D -- Komunikasi Internal --> F
+    D -- Komunikasi Internal --> G
+    D -- Komunikasi Internal --> H
+    D -- Komunikasi Internal --> I
+    D -- Komunikasi Internal --> J
+    
+    F -- Mengurangi Saldo --> E
+    G -- Menambah Saldo --> E
+    
+    H -- Menerima Event --> E
+    H -- Menerima Event --> F
+    H -- Menerima Event --> G
+    
+    I -- Baca Data --> E
+    I -- Baca Data --> F
+    I -- Baca Data --> J
+    
+    J -- Baca Data --> I
+    
+    G -- Berinteraksi --> K
+    K -- Callback/Webhook --> G
+
+    E -- Baca/Tulis --> DB[(PostgreSQL)]
+    F -- Baca/Tulis --> DB
+    G -- Baca/Tulis --> DB
+    J -- Baca/Tulis --> DB
+    I -- Baca --> DB
+    D -- Baca/Tulis --> DB
+
+    subgraph "Microservices (Backend)"
+        D
+        E
+        F
+        G
+        H
+        I
+        J
+        K
+    end</code></pre>
+            <h4>Komponen Utama (Microservices):</h4>
+            <ul>
+                <li><strong>Microservice Autentikasi/Pengguna</strong><br>Mengelola data semua peran pengguna, autentikasi (login), otorisasi (hak akses), data santri (nama, foto, PIN), hubungan wali-santri.</li>
+                <li><strong>Microservice Saldo Santri</strong><br>Mengelola data saldo santri, menyediakan API untuk penambahan/pengurangan saldo. Ini adalah sumber kebenaran tunggal untuk saldo.</li>
+                <li><strong>Microservice Transaksi Harian / POS</strong><br>Mengelola data unit pondok, daftar produk/layanan per unit, menerima input transaksi dari PWA Admin Unit (termasuk harga, diskon), memicu pengurangan saldo via Microservice Saldo Santri, mencatat detail item transaksi.</li>
+                <li><strong>Microservice Top-up</strong><br>Mengelola alur top-up, berinteraksi dengan Microservice Integrasi Payment Gateway (untuk BRIVA otomatis) dan menyediakan API untuk pencatatan top-up tunai oleh Admin Keuangan. Memicu penambahan saldo via Microservice Saldo Santri.</li>
+                <li><strong>Microservice Notifikasi</strong><br>Menerima event dari microservices lain (saldo berubah, transaksi terjadi, top-up berhasil, status penagihan berubah) dan mengirim notifikasi <em>in-app</em> ke PWA pengguna terkait.</li>
+                <li><strong>Microservice Laporan/Rekap</strong><br>Menyediakan API untuk mengambil berbagai laporan agregat dan detail dari data yang tersebar di microservices lain (saldo, transaksi, top-up, status penagihan/pelunasan). Digunakan oleh semua peran yang butuh laporan/dashboard.</li>
+                <li><strong>Microservice Keuangan Internal / Penagihan</strong><br>Mengelola alur formal penagihan dari Admin Unit ke Admin Keuangan/Bendahara. Merekam klaim penagihan, status pembayaran (pelunasan), dan otorisasi (PIN) untuk proses ini.</li>
+                <li><strong>Microservice Integrasi Payment Gateway</strong><br>Bertanggung jawab penuh untuk berkomunikasi dengan API eksternal BRIAPI BRIVA (pembuatan VA, menerima callback notifikasi).</li>
+            </ul>
+            <h4>Database: PostgreSQL</h4>
+            <p>Setiap microservice <em>memiliki tanggung jawab utama</em> atas data tertentu dan berinteraksi dengan skema database yang sesuai. Untuk simplifikasi awal, bisa menggunakan satu instance PostgreSQL dengan <em>schema terpisah</em> untuk setiap microservice atau kelompok microservice yang terkait erat. Data sensitif (seperti PIN, kredensial API) harus dienkripsi dengan aman.</p>
+        </div>
+
+        <h2 class="collapsible">3. Teknologi Stack</h2>
+        <div class="content">
+            <ul>
+                <li><strong>Backend:</strong> Python 3.x. Framework <strong>FastAPI</strong> direkomendasikan untuk membangun API microservices yang ringan, cepat, dan modern. Penggunaan library seperti SQLAlchemy untuk ORM.</li>
+                <li><strong>Database:</strong> PostgreSQL. Sistem manajemen database relasional yang powerful dan handal.</li>
+                <li><strong>Frontend:</strong> Progressive Web Application (PWA). Dibangun menggunakan framework JavaScript modern seperti <strong>React, Vue.js, atau Angular</strong>. Dipilih untuk dukungan multiplatform (desktop & mobile browser) dan fitur PWA (offline support terbatas, add to home screen).</li>
+                <li><strong>Payment Gateway:</strong> BRIAPI dengan BRIVA Web Service untuk fasilitas top-up Virtual Account otomatis.</li>
+                <li><strong>Containerization:</strong> Docker. Digunakan untuk membuat image kontainer untuk setiap microservice backend, frontend PWA (disajikan via web server ringan), dan database.</li>
+                <li><strong>Orkestrasi (Opsional Awal):</strong> Docker Compose untuk pengembangan dan staging lokal multi-kontainer. Kubernetes dapat dipertimbangkan untuk skala produksi yang lebih besar di masa depan.</li>
+                <li><strong>Deployment:</strong> Digital Ocean Droplets (Ubuntu Server).</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="dokumen-teknis-b.html" class="nav-button" style="margin-left: auto;">Next</a>
+        </div>

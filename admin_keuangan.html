@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Keuangan - Saku Santri JARINABI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .dashboard-card { height: 100%; }
+        .transaction-table { max-height: 400px; overflow-y: auto; }
+        #cashFlowChart { max-height: 250px; }
+        .santri-profile { border-radius: 10px; padding: 1rem; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Saku Santri JARINABI</a>
+            <div class="d-flex align-items-center ms-auto">
+                <div class="dropdown me-3">
+                    <button class="btn btn-light position-relative" id="notifDropdown" data-bs-toggle="dropdown">
+                        <i class="bi bi-bell"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            3
+                            <span class="visually-hidden">unread notifications</span>
+                        </span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end px-2" style="width: 320px;">
+                        <li><h6 class="dropdown-header">Notifikasi Terbaru</h6></li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <div class="d-flex justify-content-between">
+                                    <span>Top-up berhasil</span>
+                                    <small class="text-muted">1 menit lalu</small>
+                                </div>
+                                <small>Santri: Ahmad Manaf, Rp 500.000</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <div class="d-flex justify-content-between">
+                                    <span>Transaksi Kantin</span>
+                                    <small class="text-muted">15 menit lalu</small>
+                                </div>
+                                <small>Santri: Dewi Lestari, Rp 25.000</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <div class="d-flex justify-content-between">
+                                    <span>Klaim penagihan</span>
+                                    <small class="text-muted">1 jam lalu</small>
+                                </div>
+                                <small>Unit: Kantin Putra, Rp 850.000</small>
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-center" href="#">Lihat Semua Notifikasi</a></li>
+                    </ul>
+                </div>
+                <span class="navbar-text">Admin Keuangan</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <!-- Summary Cards -->
+            <div class="col-md-3">
+                <div class="card dashboard-card" data-bs-toggle="modal" data-bs-target="#saldoSantriModal">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Total Saldo Santri</h5>
+                        <div class="display-5">187.500.000</div>
+                        <small class="text-muted">Dari 500 Santri</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card dashboard-card" data-bs-toggle="modal" data-bs-target="#transaksiModal">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Transaksi Hari Ini</h5>
+                        <div class="display-5 text-danger">850.000</div>
+                        <small class="text-muted">42 transaksi</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card dashboard-card" data-bs-toggle="modal" data-bs-target="#topupModal">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Top-up Hari Ini</h5>
+                        <div class="display-5 text-success">1.200.000</div>
+                        <small class="text-muted">3 transaksi</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card dashboard-card" data-bs-toggle="modal" data-bs-target="#laporanModal">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Buat Laporan</h5>
+                        <i class="bi bi-file-earmark-text" style="font-size: 2rem;"></i>
+                        <div class="mt-2">
+                            <small class="text-muted">Rekap Bulanan</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <!-- Aktivitas Terkini -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Aktivitas Terkini</h5>
+                        <button class="btn btn-sm btn-outline-secondary">Lihat Semua</button>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <div>
+                                    <span>Top-up Digital (BRIVA)</span>
+                                    <small class="d-block text-muted">Santri: Ahmad Manaf (123456789)</small>
+                                </div>
+                                <span class="text-success">+Rp 500.000</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <div>
+                                    <span>Top-up Tunai</span>
+                                    <small class="d-block text-muted">Santri: Dewi Lestari (987654321)</small>
+                                </div>
+                                <span class="text-success">+Rp 300.000</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Pembayaran Kantin Putra</span>
+                                <span class="text-danger">-Rp 150.000</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Klaim diajukan Kantin Putra</span>
+                                <span>Rp 850.000</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <!-- Klaim Penagihan Unit -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Klaim Penagihan Unit</h5>
+                        <div>
+                            <select class="form-select form-select-sm" style="width: 120px;">
+                                <option>Semua Status</option>
+                                <option>Menunggu</option>
+                                <option>Disetujui</option>
+                                <option>Ditolak</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Unit</th>
+                                        <th>Periode</th>
+                                        <th>Nominal</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Kantin Putra</td>
+                                        <td>01-04/05/2025</td>
+                                        <td>Rp 850.000</td>
+                                        <td><span class="badge bg-warning">Menunggu</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#klaimModal">Detail</button>
+                                            <button class="btn btn-sm btn-primary ms-1" data-bs-toggle="modal" data-bs-target="#otorisasiGandaModal">Proses</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Koperasi</td>
+                                        <td>01-04/05/2025</td>
+                                        <td>Rp 350.000</td>
+                                        <td><span class="badge bg-success">Disetujui</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#klaimModal">Detail</button>
+                                            <button class="btn btn-sm btn-secondary ms-1" disabled>Proses Selesai</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <small class="text-muted">Menampilkan 2 dari 5 klaim</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Edit Saldo Santri -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Edit Saldo Santri</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Pilih Santri</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Masukkan NIS">
+                                <button class="btn btn-outline-secondary">Cari</button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Jenis Transaksi</label>
+                            <select class="form-select" id="jenisTransaksi">
+                                <option value="tambah">Penambahan Saldo</option>
+                                <option value="kurang">Pengurangan Saldo</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Kategori</label>
+                            <select class="form-select" id="kategoriTransaksi">
+                                <option value="topup" class="kategori-tambah">Top-up Tunai</option>
+                                <option value="hadiah" class="kategori-tambah">Hadiah</option>
+                                <option value="pengembalian" class="kategori-tambah">Pengembalian Dana</option>
+                                <option value="denda" class="kategori-kurang">Denda</option>
+                                <option value="iuran" class="kategori-kurang">Iuran</option>
+                                <option value="lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nominal (Rp)</label>
+                            <input type="number" class="form-control" placeholder="Masukkan Nominal">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Keterangan</label>
+                            <textarea class="form-control" rows="2" placeholder="Masukkan keterangan"></textarea>
+                        </div>
+                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#pinModal">Catat Perubahan</button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Panel Limit Pengeluaran Santri -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Manajemen Limit Pengeluaran Santri</h5>
+                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#limitModal">Tambah Limit</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Santri</th>
+                                        <th>Unit</th>
+                                        <th>Limit Harian</th>
+                                        <th>Limit Terpakai</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Ahmad Manaf</td>
+                                        <td>Kantin Putra</td>
+                                        <td>Rp 20.000</td>
+                                        <td>Rp 15.000</td>
+                                        <td><span class="badge bg-success">Aktif</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" 
+                                                onclick="bukaEditLimit('Ahmad Manaf', 'Kantin Putra', 20000, true)">
+                                                Edit
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dewi Lestari</td>
+                                        <td>Koperasi</td>
+                                        <td>Rp 50.000</td>
+                                        <td>Rp 25.000</td>
+                                        <td><span class="badge bg-success">Aktif</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" 
+                                                onclick="bukaEditLimit('Dewi Lestari', 'Koperasi', 50000, true)">
+                                                Edit
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel Audit Log -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Audit Log</h5>
+                        <div>
+                            <select class="form-select form-select-sm" style="width: 150px;">
+                                <option>Semua Aktivitas</option>
+                                <option>Transaksi</option>
+                                <option>Top-up</option>
+                                <option>Limit</option>
+                                <option>Penagihan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Waktu</th>
+                                        <th>Aktivitas</th>
+                                        <th>User</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>04/05/2025 10:30</td>
+                                        <td>Top-up Tunai</td>
+                                        <td>Admin Keuangan</td>
+                                        <td>Santri: Ahmad Manaf, Nominal: Rp 500.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>04/05/2025 11:15</td>
+                                        <td>Edit Limit</td>
+                                        <td>Admin Keuangan</td>
+                                        <td>Santri: Dewi Lestari, Unit: Koperasi, Limit Baru: Rp 50.000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <small class="text-muted">Menampilkan 2 dari 25 aktivitas</small>
+                            <nav>
+                                <ul class="pagination pagination-sm">
+                                    <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Selanjutnya</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Modal Transaksi Hari Ini -->
+    <div class="modal fade" id="transaksiModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Rincian Transaksi - 04/05/2025 (42 transaksi)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Waktu</th>
+                                    <th>Santri</th>
+                                    <th>Unit</th>
+                                    <th>Nominal</th>
+                                    <th>Item</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>12:30</td>
+                                    <td>Ahmad Manaf</td>
+                                    <td>Kantin Putra</td>
+                                    <td>Rp 15.000</td>
+                                    <td>Nasi Goreng + Es Teh</td>
+                                </tr>
+                                <tr>
+                                    <td>11:45</td>
+                                    <td>Dewi Lestari</td>
+                                    <td>Koperasi</td>
+                                    <td>Rp 25.000</td>
+                                    <td>Buku Tulis</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="button" class="btn btn-primary">Ekspor ke CSV</button>
+                                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Top-up Hari Ini -->
+    <div class="modal fade" id="topupModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Rincian Top-up - 04/05/2025 (3 transaksi)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Waktu</th>
+                                    <th>Wali Santri</th>
+                                    <th>Santri</th>
+                                    <th>Nominal</th>
+                                    <th>Metode</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>10:15</td>
+                                    <td>Budi Manaf</td>
+                                    <td>Ahmad Manaf</td>
+                                    <td>Rp 500.000</td>
+                                    <td>Transfer Bank</td>
+                                </tr>
+                                <tr>
+                                    <td>09:30</td>
+                                    <td>Siti Rahayu</td>
+                                    <td>Dewi Lestari</td>
+                                    <td>Rp 300.000</td>
+                                    <td>Tunai</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary">Ekspor ke CSV</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Klaim Menunggu -->
+    <div class="modal fade" id="klaimModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Rincian Klaim Menunggu (2 klaim)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="klaimTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="detail-tab" data-bs-toggle="tab" data-bs-target="#detail" type="button" role="tab">Detail Klaim</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="rekap-tab" data-bs-toggle="tab" data-bs-target="#rekap" type="button" role="tab">Rekap Transaksi</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="klaimTabContent">
+                        <div class="tab-pane fade show active" id="detail" role="tabpanel">
+                            <div class="table-responsive mt-3">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Unit</th>
+                                            <th>Periode</th>
+                                            <th>Nominal</th>
+                                            <th>Diajukan Pada</th>
+                                            <th>Admin Unit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Kantin Putra</td>
+                                            <td>01-04/05/2025</td>
+                                            <td>Rp 850.000</td>
+                                            <td>04/05/2025 10:30</td>
+                                            <td>Bambang S</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Koperasi</td>
+                                            <td>01-04/05/2025</td>
+                                            <td>Rp 350.000</td>
+                                            <td>04/05/2025 11:15</td>
+                                            <td>Dewi K</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="rekap" role="tabpanel">
+                            <div class="table-responsive mt-3">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Santri</th>
+                                            <th>Item</th>
+                                            <th>Harga</th>
+                                            <th>Jumlah</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>01/05/2025</td>
+                                            <td>Ahmad Manaf</td>
+                                            <td>Nasi Goreng</td>
+                                            <td>Rp 10.000</td>
+                                            <td>1</td>
+                                            <td>Rp 10.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>01/05/2025</td>
+                                            <td>Ahmad Manaf</td>
+                                            <td>Es Teh</td>
+                                            <td>Rp 5.000</td>
+                                            <td>1</td>
+                                            <td>Rp 5.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>02/05/2025</td>
+                                            <td>Dewi Lestari</td>
+                                            <td>Buku Tulis</td>
+                                            <td>Rp 25.000</td>
+                                            <td>1</td>
+                                            <td>Rp 25.000</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="5" class="text-end">Total Klaim:</th>
+                                            <th>Rp 850.000</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="5" class="text-end">Total Rekap Sistem:</th>
+                                            <th>Rp 850.000</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#otorisasiGandaModal">Proses Pelunasan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Saldo Santri -->
+    <div class="modal fade" id="saldoSantriModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Saldo Santri - 04/05/2025 (500 Santri)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>NIS</th>
+                                    <th>Nama Santri</th>
+                                    <th>Nomor BRIVA</th>
+                                    <th>Saldo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>123456789</td>
+                                    <td>Ahmad Manaf</td>
+                                    <td>77777123123456789</td>
+                                    <td>325.000</td>
+                                </tr>
+                                <tr>
+                                    <td>987654321</td>
+                                    <td>Dewi Lestari</td>
+                                    <td>77777123987654321</td>
+                                    <td>580.000</td>
+                                </tr>
+                                <tr>
+                                    <td>567891234</td>
+                                    <td>Ibrahim Arief</td>
+                                    <td>77777123567891234</td>
+                                    <td>720.000</td>
+                                </tr>
+                                <tr>
+                                    <td>432198765</td>
+                                    <td>Nur Haliza</td>
+                                    <td>77777123432198765</td>
+                                    <td>950.000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary">Ekspor ke CSV</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Otorisasi Ganda -->
+    <div class="modal fade" id="otorisasiGandaModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Otorisasi Pelunasan Tagihan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">PIN Admin Keuangan</label>
+                        <input type="password" class="form-control" id="pinAdminKeuangan" placeholder="Masukkan 6 digit PIN">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">PIN Bendahara</label>
+                        <input type="password" class="form-control" id="pinBendahara" placeholder="Masukkan 6 digit PIN">
+                    </div>
+                    <div class="alert alert-info">
+                        Proses ini membutuhkan verifikasi dari Admin Keuangan dan Bendahara
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" onclick="verifikasiOtorisasiGanda()">Verifikasi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIN Modal -->
+    <div class="modal fade" id="pinModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Verifikasi PIN Admin</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="mb-3">
+                        <input type="password" class="form-control text-center" id="adminPinInput" placeholder="******" readonly>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('1')">1</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('2')">2</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('3')">3</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('4')">4</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('5')">5</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('6')">6</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('7')">7</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('8')">8</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('9')">9</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="clearPin()">C</button></div>
+                        <div class="col-4"><button class="btn btn-outline-secondary w-100 py-3" onclick="appendPin('0')">0</button></div>
+                        <div class="col-4"><button class="btn btn-outline-danger w-100 py-3" onclick="deletePin()">⌫</button></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" onclick="verifyPin()">Verifikasi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah/Edit Limit -->
+    <div class="modal fade" id="limitModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="limitModalTitle">Tambah Limit Pengeluaran</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="limitForm">
+                        <div class="mb-3">
+                            <label class="form-label">Pilih Santri</label>
+                            <select class="form-select" id="santriSelect" required>
+                                <option value="">Pilih Santri</option>
+                                <option value="123456789">Ahmad Manaf</option>
+                                <option value="987654321">Dewi Lestari</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Pilih Unit</label>
+                            <select class="form-select" id="unitSelect" required>
+                                <option value="">Pilih Unit</option>
+                                <option value="kantin">Kantin Putra</option>
+                                <option value="koperasi">Koperasi</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Limit Harian (Rp)</label>
+                            <input type="number" class="form-control" id="limitInput" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="statusCheck">
+                            <label class="form-check-label" for="statusCheck">Aktif</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" onclick="simpanLimit()">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Laporan Modal -->
+    <div class="modal fade" id="laporanModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Rekap Bulanan - Mei 2025</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6>Ringkasan Keuangan</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Total Saldo Santri</span>
+                                        <span>Rp 187.500.000</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Total Top-up</span>
+                                        <span class="text-success">Rp 3.200.000</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Total Transaksi</span>
+                                        <span class="text-danger">Rp 2.850.000</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between fw-bold">
+                                        <span>Saldo Bersih</span>
+                                        <span>Rp 187.850.000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6>Transaksi per Unit</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Kantin Putra</span>
+                                        <span>Rp 1.250.000</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Koperasi</span>
+                                        <span>Rp 850.000</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Administrasi</span>
+                                        <span>Rp 750.000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Kategori</th>
+                                    <th>Nominal</th>
+                                    <th>Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>01/05/2025</td>
+                                    <td>Top-up</td>
+                                    <td class="text-success">+Rp 500.000</td>
+                                    <td>Transfer Bank</td>
+                                </tr>
+                                <tr>
+                                    <td>02/05/2025</td>
+                                    <td>Kantin</td>
+                                    <td class="text-danger">-Rp 150.000</td>
+                                    <td>Makan siang</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary" onclick="exportToPDF()">Export PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Fungsi untuk export PDF
+        function exportToPDF() {
+            alert('Fitur export PDF akan diimplementasikan');
+            // Implementasi export PDF akan ditambahkan
+        }
+        // Fungsi untuk mengupdate tampilan kategori berdasarkan jenis transaksi
+        function updateKategoriOptions() {
+            const jenisTransaksi = document.getElementById('jenisTransaksi').value;
+            const kategoriSelect = document.getElementById('kategoriTransaksi');
+            
+            // Sembunyikan semua opsi terlebih dahulu
+            Array.from(kategoriSelect.options).forEach(option => {
+                option.style.display = 'none';
+            });
+            
+            // Tampilkan opsi yang sesuai dengan jenis transaksi
+            if (jenisTransaksi === 'tambah') {
+                // Tampilkan kategori penambahan
+                document.querySelectorAll('.kategori-tambah').forEach(opt => {
+                    opt.style.display = 'block';
+                });
+            } else {
+                // Tampilkan kategori pengurangan
+                document.querySelectorAll('.kategori-kurang').forEach(opt => {
+                    opt.style.display = 'block';
+                });
+            }
+            
+            // Selalu tampilkan opsi Lainnya
+            kategoriSelect.querySelector('option[value="lainnya"]').style.display = 'block';
+            
+            // Reset ke opsi pertama yang terlihat
+            Array.from(kategoriSelect.options).some(option => {
+                if (option.style.display !== 'none') {
+                    kategoriSelect.value = option.value;
+                    return true;
+                }
+                return false;
+            });
+        }
+
+        // Fungsi untuk Otorisasi Ganda
+        function verifikasiOtorisasiGanda() {
+            const pinAdmin = document.getElementById('pinAdminKeuangan').value;
+            const pinBendahara = document.getElementById('pinBendahara').value;
+            
+            if (pinAdmin.length !== 6 || pinBendahara.length !== 6) {
+                alert('Kedua PIN harus 6 digit');
+                return;
+            }
+            
+            // Proses verifikasi otorisasi ganda
+            alert('Otorisasi ganda berhasil. Pelunasan akan diproses.');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('otorisasiGandaModal'));
+            modal.hide();
+            
+            // Tutup modal detail klaim
+            const klaimModal = bootstrap.Modal.getInstance(document.getElementById('klaimModal'));
+            klaimModal.hide();
+            
+            // Update status klaim di UI
+            document.querySelector('#klaimModal .badge.bg-warning').className = 'badge bg-success';
+            document.querySelector('#klaimModal .badge.bg-warning').textContent = 'Disetujui';
+        }
+
+        // Fungsi untuk PIN Admin
+        function appendPin(num) {
+            const pinInput = document.getElementById('adminPinInput');
+            if (pinInput.value.length < 6) {
+                pinInput.value += num;
+            }
+        }
+
+        function deletePin() {
+            const pinInput = document.getElementById('adminPinInput');
+            pinInput.value = pinInput.value.slice(0, -1);
+        }
+
+        function clearPin() {
+            document.getElementById('adminPinInput').value = '';
+        }
+
+        function verifyPin() {
+            const enteredPin = document.getElementById('adminPinInput').value;
+            if (enteredPin.length !== 6) {
+                alert('PIN harus 6 digit');
+                return;
+            }
+            // Proses verifikasi PIN di sini
+            alert('PIN berhasil diverifikasi');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('pinModal'));
+            modal.hide();
+        }
+
+        // Fungsi untuk buka modal edit limit
+        function bukaEditLimit(namaSantri, unit, limit, status) {
+            document.getElementById('limitModalTitle').textContent = 'Edit Limit Pengeluaran';
+            
+            // Set nilai form berdasarkan data
+            document.getElementById('santriSelect').value = namaSantri === 'Ahmad Manaf' ? '123456789' : '987654321';
+            document.getElementById('unitSelect').value = unit === 'Kantin Putra' ? 'kantin' : 'koperasi';
+            document.getElementById('limitInput').value = limit;
+            document.getElementById('statusCheck').checked = status;
+            
+            // Buka modal
+            const modal = new bootstrap.Modal(document.getElementById('limitModal'));
+            modal.show();
+        }
+
+        // Fungsi untuk simpan limit
+        function simpanLimit() {
+            const santri = document.getElementById('santriSelect').value;
+            const unit = document.getElementById('unitSelect').value;
+            const limit = document.getElementById('limitInput').value;
+            const status = document.getElementById('statusCheck').checked;
+            
+            if (!santri || !unit || !limit) {
+                alert('Harap isi semua field yang diperlukan');
+                return;
+            }
+            
+            // Proses penyimpanan data
+            alert(`Limit berhasil disimpan:\nSantri: ${santri}\nUnit: ${unit}\nLimit: Rp ${limit}\nStatus: ${status ? 'Aktif' : 'Non-Aktif'}`);
+            
+            // Tutup modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('limitModal'));
+            modal.hide();
+        }
+
+        // Jalankan saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            updateKategoriOptions();
+            
+            document.getElementById('jenisTransaksi').addEventListener('change', function() {
+                updateKategoriOptions();
+            });
+        });
+    </script>
+</body>
+</html>

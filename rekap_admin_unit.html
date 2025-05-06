@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekap Transaksi - Admin Unit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-header {
+            font-weight: bold;
+        }
+        .transaction-item {
+            border-left: 3px solid #0d6efd;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Saku Santri JARINABI</a>
+            <div class="d-flex">
+                <span class="navbar-text me-3">Rekap Transaksi - Kantin Putra</span>
+                <a href="admin_unit.html" class="btn btn-outline-light me-2">Kasir</a>
+                <a href="login.html" class="btn btn-outline-light">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Rekap Hari Ini -->
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h5>Rekap Transaksi Hari Ini (04/05/2025)</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6>Total Penjualan</h6>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Jumlah</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Nasi Goreng</td>
+                                    <td>15</td>
+                                    <td>Rp 120.000</td>
+                                </tr>
+                                <tr>
+                                    <td>Es Teh</td>
+                                    <td>20</td>
+                                    <td>Rp 60.000</td>
+                                </tr>
+                                <tr class="table-active">
+                                    <td><strong>Total</strong></td>
+                                    <td><strong>35</strong></td>
+                                    <td><strong>Rp 180.000</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Transaksi per Santri</h6>
+                        <div class="list-group">
+                            <div class="list-group-item transaction-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <strong>Ahmad Manaf (123456789)</strong><br>
+                                        <small>2x Nasi Goreng, 1x Es Teh</small>
+                                    </div>
+                                    <div class="text-end">
+                                        Rp 19.000<br>
+                                        <small class="text-muted">12:30 WIB</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item transaction-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <strong>Dewi Lestari (987654321)</strong><br>
+                                        <small>1x Nasi Goreng (oleh Ahmad Manaf)</small>
+                                    </div>
+                                    <div class="text-end">
+                                        Rp 8.000<br>
+                                        <small class="text-muted">13:45 WIB</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rekap Pekan Ini -->
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h5>Rekap Transaksi Pekan Ini (Minggu ke-18)</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Jumlah</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nasi Goreng</td>
+                            <td>85</td>
+                            <td>Rp 680.000</td>
+                        </tr>
+                        <tr>
+                            <td>Es Teh</td>
+                            <td>120</td>
+                            <td>Rp 360.000</td>
+                        </tr>
+                        <tr class="table-active">
+                            <td><strong>Total</strong></td>
+                            <td><strong>205</strong></td>
+                            <td><strong>Rp 1.040.000</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Rekap Bulan Ini -->
+                <div class="card">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Rekap Transaksi Bulan Ini (Mei 2025)</h5>
+                        <div>
+                            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#lastMonthModal">Lihat Rekap Bulan Lalu</button>
+                        </div>
+                    </div>
+                    <div class="card-body text-center mb-4">
+                        <h1 class="display-4">Rp 4.250.000</h1>
+                        <div class="badge bg-warning text-dark mt-2 mb-3">Status: Piutang</div>
+                        <div>
+                            <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#penagihanModal">
+                                <i class="bi bi-calendar-check"></i> Penagihan
+                            </button>
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#pelunasanModal">
+                                <i class="bi bi-cash-stack"></i> Pelunasan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Penagihan Modal -->
+                <div class="modal fade" id="penagihanModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Ajukan Penagihan</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-4">
+                                    <h6>Rekap Bulan Ini (Mei 2025)</h6>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td>Total Piutang</td>
+                                            <td class="text-end">Rp 4.250.000</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Tanggal Penagihan</label>
+                                    <input type="date" class="form-control" id="tanggalPenagihan">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Masukkan PIN Admin</label>
+                                    <input type="password" class="form-control text-center" id="penagihanPinInput" placeholder="******" readonly>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPenagihanPin('1')">1</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPenagihanPin('2')">2</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPenagihanPin('3')">3</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPenagihanPin('4')">4</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPenagihanPin('5')">5</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPenagihanPin('6')">6</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPenagihanPin('7')">7</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPenagihanPin('8')">8</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPenagihanPin('9')">9</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="clearPenagihanPin()">C</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPenagihanPin('0')">0</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-danger w-100 py-2" onclick="deletePenagihanPin()">⌫</button></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="button" class="btn btn-primary" onclick="ajukanPenagihan()">Ajukan Penagihan</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pelunasan Modal -->
+                <div class="modal fade" id="pelunasanModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Konfirmasi Pelunasan</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Tanggal Pelunasan</label>
+                                    <input type="date" class="form-control" id="tanggalPelunasan">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Nominal Pelunasan</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Rp</span>
+                                        <input type="number" class="form-control" value="4250000">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Masukkan PIN Admin</label>
+                                    <input type="password" class="form-control text-center" id="pelunasanPinInput" placeholder="******" readonly>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPelunasanPin('1')">1</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPelunasanPin('2')">2</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPelunasanPin('3')">3</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPelunasanPin('4')">4</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPelunasanPin('5')">5</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPelunasanPin('6')">6</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPelunasanPin('7')">7</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPelunasanPin('8')">8</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPelunasanPin('9')">9</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="clearPelunasanPin()">C</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-secondary w-100 py-2" onclick="appendPelunasanPin('0')">0</button></div>
+                                    <div class="col-4"><button class="btn btn-outline-danger w-100 py-2" onclick="deletePelunasanPin()">⌫</button></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="button" class="btn btn-primary" onclick="konfirmasiPelunasan()">Konfirmasi Pelunasan</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    // Penagihan PIN functions
+                    function appendPenagihanPin(num) {
+                        const pinInput = document.getElementById('penagihanPinInput');
+                        if (pinInput.value.length < 6) {
+                            pinInput.value += num;
+                        }
+                    }
+
+                    function deletePenagihanPin() {
+                        const pinInput = document.getElementById('penagihanPinInput');
+                        pinInput.value = pinInput.value.slice(0, -1);
+                    }
+
+                    function clearPenagihanPin() {
+                        document.getElementById('penagihanPinInput').value = '';
+                    }
+
+                    function ajukanPenagihan() {
+                        const enteredPin = document.getElementById('penagihanPinInput').value;
+                        const tanggal = document.getElementById('tanggalPenagihan').value;
+                        
+                        if (!tanggal) {
+                            alert('Harap pilih tanggal penagihan');
+                            return;
+                        }
+                        
+                        if (enteredPin.length !== 6) {
+                            alert('PIN harus 6 digit');
+                            return;
+                        }
+                        
+                        alert(`Penagihan untuk Mei 2025 sebesar Rp 4.250.000 diajukan pada ${tanggal}`);
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('penagihanModal'));
+                        modal.hide();
+                    }
+
+                    // Pelunasan PIN functions
+                    function appendPelunasanPin(num) {
+                        const pinInput = document.getElementById('pelunasanPinInput');
+                        if (pinInput.value.length < 6) {
+                            pinInput.value += num;
+                        }
+                    }
+
+                    function deletePelunasanPin() {
+                        const pinInput = document.getElementById('pelunasanPinInput');
+                        pinInput.value = pinInput.value.slice(0, -1);
+                    }
+
+                    function clearPelunasanPin() {
+                        document.getElementById('pelunasanPinInput').value = '';
+                    }
+
+                    function konfirmasiPelunasan() {
+                        const enteredPin = document.getElementById('pelunasanPinInput').value;
+                        const tanggal = document.getElementById('tanggalPelunasan').value;
+                        const nominal = document.querySelector('#pelunasanModal input[type="number"]').value;
+                        
+                        if (!tanggal) {
+                            alert('Harap pilih tanggal pelunasan');
+                            return;
+                        }
+                        
+                        if (enteredPin.length !== 6) {
+                            alert('PIN harus 6 digit');
+                            return;
+                        }
+                        
+                        document.querySelector('.badge').className = 'badge bg-success text-white mt-2';
+                        document.querySelector('.badge').textContent = 'Status: Dilunasi';
+                        
+                        alert(`Pelunasan sebesar Rp ${nominal} berhasil dikonfirmasi pada ${tanggal}`);
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('pelunasanModal'));
+                        modal.hide();
+                    }
+                </script>
+    </div>
+
+                <!-- Last Month Modal -->
+                <div class="modal fade" id="lastMonthModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Rekap Bulan Lalu (April 2025)</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="text-center mb-4">
+                                    <h3>Rp 3.850.000</h3>
+                                    <div class="badge bg-success text-white mt-2">Status: Dilunasi</div>
+                                    <p class="text-muted mt-2">Dibayar pada: 30/04/2025</p>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Jumlah</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Nasi Goreng</td>
+                                            <td>150</td>
+                                            <td>Rp 1.200.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Es Teh</td>
+                                            <td>200</td>
+                                            <td>Rp 600.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mie Goreng</td>
+                                            <td>100</td>
+                                            <td>Rp 700.000</td>
+                                        </tr>
+                                        <tr class="table-active">
+                                            <td><strong>Total</strong></td>
+                                            <td><strong>450</strong></td>
+                                            <td><strong>Rp 3.850.000</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
